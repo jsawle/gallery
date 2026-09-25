@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jason's App Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --ink:#18221F; --muted:#5A6863; --line:#D9E0DC;
+  --accent:#0E6B66; --accent-soft:#DCEDEA; --chip:#EEF2EF; --ver:#8A5A12; --ver-bg:#F6ECD9;
+  --c-process:#0E6B66; --c-tools:#3B5BA5; --c-field:#6B7A1E; --c-learn:#A04E2C; --c-help:#6A4C93; --c-other:#5A6863;
+  --display:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --bg:#101614; --surface:#18201D; --ink:#E4EBE8; --muted:#97A6A0; --line:#2A3531;
+  --accent:#5CC3B9; --accent-soft:#1D3431; --chip:#212B28; --ver:#E3B568; --ver-bg:#33291A;
+  --c-process:#5CC3B9; --c-tools:#8EA8E6; --c-field:#B9C766; --c-learn:#E39472; --c-help:#B79BDF; --c-other:#97A6A0;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#101614; --surface:#18201D; --ink:#E4EBE8; --muted:#97A6A0; --line:#2A3531;
+  --accent:#5CC3B9; --accent-soft:#1D3431; --chip:#212B28; --ver:#E3B568; --ver-bg:#33291A;
+  --c-process:#5CC3B9; --c-tools:#8EA8E6; --c-field:#B9C766; --c-learn:#E39472; --c-help:#B79BDF; --c-other:#97A6A0;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:32px 56px}
+header{display:grid;gap:6px;margin-bottom:24px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(30px,5vw,44px)/1.05 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{color:var(--muted);margin:0;max-width:62ch}
+.controls{display:grid;gap:12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.search{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+#q{flex:1 1 260px;min-width:0;font:16px var(--body);padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+#q:focus-visible,button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#sort{font:14px var(--body);padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.count{font:500 13px var(--mono);color:var(--muted);white-space:nowrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:600 14px var(--body);padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.chip .dot{width:9px;height:9px;border-radius:50%;background:var(--cc,var(--muted))}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+section{margin-bottom:36px}
+section h2{font:600 22px/1.2 var(--display);margin:0 0 4px;display:flex;gap:10px;align-items:baseline}
+section h2 .n{font:500 13px var(--mono);color:var(--muted)}
+section .sub{color:var(--muted);margin:0 0 14px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--cc)}
+.card h3{font:600 19px/1.2 var(--display);margin:0}
+.card h3 a{color:var(--ink);text-decoration:none}
+.card h3 a:hover{color:var(--accent);text-decoration:underline}
+.card p{margin:0;color:var(--muted);font-size:15px;flex:1}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font:12px var(--mono);color:var(--muted)}
+.ver{background:var(--ver-bg);color:var(--ver);padding:2px 7px;border-radius:4px;font-weight:500}
+.ver.none{background:var(--chip);color:var(--muted)}
+.path{font:12px var(--mono);color:var(--muted);overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.btn{font:600 14px var(--body);text-decoration:none;padding:7px 12px;border-radius:6px;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn:hover{border-color:var(--accent)}
+.sublinks{display:flex;flex-wrap:wrap;gap:6px}
+.sublinks a{font-size:13px;color:var(--accent);background:var(--accent-soft);padding:3px 8px;border-radius:4px;text-decoration:none}
+.sublinks a:hover{text-decoration:underline}
+.empty{color:var(--muted);padding:24px 0}
+.thumb{display:block;margin:-16px -16px 6px;aspect-ratio:16/9;max-width:calc(100% + 32px);overflow:hidden;border-radius:7px 7px 0 0;background:var(--tbg);border-bottom:1px solid var(--line)}
+.thumb svg,.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+:root{--tbg:#E8EEEB;--t-line:#C7D2CD;--t-paper:#FFFFFF;--t-ink:#2A3834;--t-hot:#C4462B;--t-warm:#E08A3C;--t-cold:#2F74B5;--t-ice:#D6EBF5;--t-land:#B9C9A6;--t-water:#A9CBE0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--tbg:#1C2522;--t-line:#2E3A36;--t-paper:#25302C;--t-ink:#C9D4CF;--t-hot:#E46B4E;--t-warm:#E9A45F;--t-cold:#6BA6DD;--t-ice:#35505E;--t-land:#4A5A3E;--t-water:#2C4A5E}}
+:root[data-theme="dark"]{--tbg:#1C2522;--t-line:#2E3A36;--t-paper:#25302C;--t-ink:#C9D4CF;--t-hot:#E46B4E;--t-warm:#E9A45F;--t-cold:#6BA6DD;--t-ice:#35505E;--t-land:#4A5A3E;--t-water:#2C4A5E}
+@media (prefers-reduced-motion:no-preference){.thumb svg{transition:transform .3s}.card:hover .thumb svg{transform:scale(1.03)}}
+footer{border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:14px}
+footer code{font:13px var(--mono)}
+@media (prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:var(--cc)}}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">jsawle.github.io · K-12 mapping prototypes</span>
+    <h1>App Gallery</h1>
+    <p class="lede">Every app hosted on Jason Sawle's GitHub Pages, grouped by what it's for. Open the live app, or view its code and history on GitHub.</p>
+  </header>
+
+  <div class="controls">
+    <div class="search">
+      <input id="q" type="search" placeholder="Search apps, e.g. volcano, fieldwork, VR" aria-label="Search apps">
+      <select id="sort" aria-label="Sort">
+        <option value="group">Group by category</option>
+        <option value="recent">Most recently updated</option>
+        <option value="name">A–Z</option>
+      </select>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by category"></div>
+  </div>
+
+  <main id="out"></main>
+
+  <footer>
+    <p>Gallery v1.1 · Built from the <code>APPS</code> list in this page. Each app update adds or changes its entry in the same commit.</p>
+  </footer>
+</div>
+
+<script>
+const BASE = "https://jsawle.github.io/";
+const GH = "https://github.com/jsawle/";
+
+const CATS = {
+  process: {name:"Physical process models", sub:"3D and 2D explorers of real Earth processes, linked to MapMaker.", color:"--c-process"},
+  learn:   {name:"Learning activities & assessment", sub:"Classroom challenges, games and quizzes.", color:"--c-learn"},
+  tools:   {name:"MapMaker tools & prototypes", sub:"Utilities and concept demos around MapMaker and Atlas.", color:"--c-tools"},
+  field:   {name:"Fieldwork upload", sub:"CSV-to-MapMaker fieldwork data pipeline, in its successive builds.", color:"--c-field"},
+  help:    {name:"Help, video & support", sub:"How To videos, galleries and the Vera assistant.", color:"--c-help"},
+  other:   {name:"Other projects", sub:"Work outside the MapMaker programme.", color:"--c-other"}
+};
+
+// One entry per app. version: the app's own version string, or "" if the page doesn't show one yet.
+const APPS = [
+  // Physical process models
+  {cat:"process", title:"Hurricane Explorer 3D", repo:"elnino", path:"hurricane-explorer.html", version:"", updated:"2026-09-24", desc:"Follow real and past storms, see how hurricanes work and who they affect. Includes wind zones, storm impacts, El Niño and a VR/3D model.", tags:"hurricane storm weather el nino vr"},
+  {cat:"process", title:"Mount St Helens 1980: Four Hazards", repo:"curriculum_artifacts", path:"mount-st-helens-1980.html", version:"1.15", updated:"2026-09-23", desc:"Grades 6–8. Run the debris avalanche, lateral blast, pyroclastic flows and lahars, and compare each with what happened on 18 May 1980.", tags:"volcano hazard lahar"},
+  {cat:"process", title:"Vesuvius 1944: Where Would the Lava Go?", repo:"curriculum_artifacts", path:"vesuvius-1944-lava.html", version:"", updated:"2026-09-23", desc:"Grades 6–8. Run a probabilistic steepest-descent lava model on today's terrain and compare it with the 1944 flows.", tags:"volcano lava hazard"},
+  {cat:"process", title:"Mount St Helens 1980 in VR", repo:"vr", path:"msh-1980-vr.html", version:"", updated:"2026-09-24", desc:"Tabletop 3D model of the four 1980 hazards. On a Quest 3, place it on your table.", tags:"volcano vr quest 3d"},
+  {cat:"process", title:"Vesuvius 1944 in VR", repo:"vr", path:"vesuvius-1944-vr.html", version:"", updated:"2026-09-24", desc:"Tabletop 3D and VR model of the March 1944 eruption. Stand in San Sebastiano or Pompei.", tags:"volcano vr quest 3d lava"},
+  {cat:"process", title:"How Yosemite Valley Was Made", repo:"curriculum_artifacts", path:"yosemite-valley.html", version:"", updated:"2026-09-23", desc:"A real north–south cross-section through El Capitan from Esri world elevation. Step through the valley before, during and after the ice.", tags:"glacier glaciation yosemite cross-section"},
+  {cat:"process", title:"Yosemite Valley in 3D", repo:"curriculum_artifacts", path:"yosemite-3d.html", version:"", updated:"2026-09-23", desc:"Real terrain and imagery filled with ice through the Sherwin and Tioga glaciations.", tags:"glacier glaciation yosemite 3d"},
+  {cat:"process", title:"Landforms Uncovered", repo:"curriculum_artifacts", path:"landforms-globe.html", version:"", updated:"2026-09-23", desc:"A 3D globe tour of how landforms were made, with cross-sections and Open in MapMaker links.", tags:"landforms globe geology"},
+  {cat:"process", title:"Ocean Currents & Global Heat Transport", repo:"currents", path:"index.html", version:"", updated:"2026-06-02", desc:"Warm and cold surface currents on a globe, showing how the ocean moves heat from the equator to the poles.", tags:"ocean currents climate globe"},
+  {cat:"process", title:"Message in a Bottle", repo:"oceancurrents", path:"ocean-drift.html", version:"", updated:"2026-06-25", desc:"Surface-drift simulator. Drop bottles in the ocean and watch where currents carry them.", tags:"ocean drift currents simulation"},
+
+  // Learning activities
+  {cat:"learn", title:"Grocery Store Site Challenge", repo:"sketchup", path:"food-desert-grocery-site.html", version:"0.7.0", updated:"2026-09-24", desc:"Find the best site for a supermarket in a food desert, then design it in SketchUp.", tags:"sketchup food desert site selection 3d"},
+  {cat:"learn", title:"Globe Assessment", repo:"3Dmodels", path:"index.html", version:"1.0", updated:"2026-05-06", desc:"Interactive 3D globe quiz on continents, oceans, countries and plate boundaries, with downloadable results.", tags:"quiz assessment globe plates"},
+  {cat:"learn", title:"Label the Volcano", repo:"assesmentgames", path:"volcano.html", version:"", updated:"2026-05-05", desc:"Drag-and-drop labelling game for the parts of a volcano.", tags:"volcano game assessment"},
+  {cat:"learn", title:"Top Ten Teaching Tips", repo:"Storymaps", path:"top-ten-tips-embed.html", version:"", updated:"2026-04-27", desc:"Embeddable top ten tips for teaching with National Geographic MapMaker.", tags:"teaching tips storymap"},
+
+  // Tools & prototypes
+  {cat:"tools", title:"Atlas Local Save + CSV", repo:"localmapsave", path:"mapmaker-atlas-concept-mockup.html", version:"2.8", updated:"2026-09-03", desc:"Atlas-style concept with sketch, open, local save, legend, bookmarks and drag-and-drop CSV. No ArcGIS account needed.", tags:"local save coppa account csv atlas"},
+  {cat:"tools", title:"MapMaker Local Save", repo:"localmapsave", path:"mapmaker-local-save-poc.html", version:"1.0", updated:"2026-09-03", desc:"First concept demo: save a working map to a local file and reopen it later without an account.", tags:"local save coppa account"},
+  {cat:"tools", title:"Web Map Auditor", repo:"mapchecker", path:"index.html", version:"0.7.1", updated:"2026-09-01", desc:"Scores a public web map against the General Cartographic Standards for distributors and partners.", tags:"quality checker audit cartography distributor"},
+  {cat:"tools", title:"Distributor Hub", repo:"distributorHub", path:"Distributor_Hub_Wireframe.html", version:"0.5", updated:"2026-09-15", desc:"Clickable wireframe of the Atlas and MapMaker Distributor Hub.", tags:"distributor wireframe hub"},
+  {cat:"tools", title:"Combined Map Gallery", repo:"datagallery", path:"index.html", version:"", updated:"2026-07-14", desc:"Paste ArcGIS Online group IDs to see every public map, app and layer across them in one gallery.", tags:"gallery groups agol"},
+  {cat:"tools", title:"Poster Tiler", repo:"mapmakergiantmaps", path:"mapmaker-poster-poc.html", version:"", updated:"2026-06-24", desc:"Frame a map area and generate a tiled PDF for printing giant maps across A4 or A3 sheets.", tags:"poster print giant maps pdf"},
+  {cat:"tools", title:"Terrain Profiler", repo:"profile", path:"elevation-profile-tool.html", version:"", updated:"2026-05-29", desc:"Draw a path to get an elevation profile with bathymetry, in 2D or 3D.", tags:"elevation profile terrain bathymetry"},
+
+  // Fieldwork
+  {cat:"field", title:"Fieldwork Upload: Local Save", repo:"data-agent", path:"mapmaker-fieldwork-local-save.html", version:"", updated:"2026-07-01", desc:"Drop a CSV with latitude and longitude and save the resulting map as a local file.", tags:"fieldwork csv upload local save"},
+  {cat:"field", title:"Fieldwork Upload: Sign-in", repo:"data-agent", path:"mapmaker-fieldwork-signin-poc.html", version:"0.50", updated:"2026-07-01", desc:"CSV upload that signs in to ArcGIS Online and sends the data to MapMaker.", tags:"fieldwork csv upload sign-in"},
+  {cat:"field", title:"Atlas Travail de terrain (FR)", repo:"esrifr", path:"atlas-fieldwork-fr.html", version:"0.50", updated:"2026-06-24", desc:"French-language sign-in version of the fieldwork upload for Atlas.", tags:"fieldwork french francais csv"},
+  {cat:"field", title:"Fieldwork Upload: Agent Build", repo:"fieldwork-agent", path:"index.html", version:"0.41", updated:"2026-05-14", desc:"Agent-built version of the fieldwork CSV upload.", tags:"fieldwork csv agent"},
+  {cat:"field", title:"MapMaker Fieldwork", repo:"mapmaker-fieldwork-canvas", path:"index.html", version:"0.41", updated:"2026-05-11", desc:"Original fieldwork CSV upload, with a sample tree-survey dataset.", tags:"fieldwork csv canvas"},
+
+  // Help & video
+  {cat:"help", title:"Ask Vera", repo:"Vera", path:"vera_canvas.html", version:"", updated:"2026-09-17", desc:"Support Hub education assistant: find maps and lessons, and create lesson plans and assessments.", tags:"vera copilot assistant ai"},
+  {cat:"help", title:"How To Video Galleries", repo:"mediaspace", path:"gallery.html", version:"", updated:"2026-07-08", desc:"Kaltura video galleries for each MapMaker How To category.", tags:"video how to kaltura mediaspace",
+    sub:[["Navigating MapMaker","navigating-mapmaker.html"],["Explore basemaps","explore-basemaps.html"],["Layers and data","explore-layers-and-data.html"],["Sketch on a map","sketch-on-a-map.html"],["Elevation profile","create-an-elevation-profile.html"],["Coordinates","measuring-and-using-coordinates.html"],["Daylight and weather","simulate-daylight-and-weather.html"],["Open and share","open-and-share-maps.html"],["Export a map","export-a-map.html"],["In the classroom","mapmaker-in-the-classroom.html"]]},
+  {cat:"help", title:"MapMaker Video", repo:"Mapmakervideo", path:"index.html", version:"", updated:"2026-07-13", desc:"National Geographic MapMaker video page.", tags:"video"},
+  {cat:"help", title:"How To Player", repo:"MapMaker-How-to", path:"player.html", version:"", updated:"2026-06-04", desc:"Simple video player for How To clips, with playback speed control.", tags:"video player how to"},
+
+  // Other
+  {cat:"other", title:"News Geoparser", repo:"localnews", path:"news_geoparser.html", version:"", updated:"2026-05-23", desc:"Finds place names in local news text and maps them.", tags:"news nlp geoparse"},
+  {cat:"other", title:"Southern Lebanon Incident Tracker", repo:"monitoring", path:"lebanon_drone_strike_tracker.html", version:"", updated:"2026-05-22", desc:"OSINT incident map built from KML data, with snapshots.", tags:"osint incidents tracker"}
+];
+
+// Thumbnail illustration per app (repo/path -> motif). Add `img:"thumbs/name.png"` to an APPS entry to use a real screenshot instead.
+const THUMBS = {
+  "elnino/hurricane-explorer.html":"hurricane",
+  "curriculum_artifacts/mount-st-helens-1980.html":"hazards",
+  "curriculum_artifacts/vesuvius-1944-lava.html":"lava",
+  "vr/msh-1980-vr.html":"vrhazards",
+  "vr/vesuvius-1944-vr.html":"vrlava",
+  "curriculum_artifacts/yosemite-valley.html":"xsec",
+  "curriculum_artifacts/yosemite-3d.html":"valley3d",
+  "curriculum_artifacts/landforms-globe.html":"landforms",
+  "currents/index.html":"currents",
+  "oceancurrents/ocean-drift.html":"drift",
+  "sketchup/food-desert-grocery-site.html":"grocery",
+  "3Dmodels/index.html":"quizglobe",
+  "assesmentgames/volcano.html":"labelvolcano",
+  "Storymaps/top-ten-tips-embed.html":"tips",
+  "localmapsave/mapmaker-atlas-concept-mockup.html":"atlassave",
+  "localmapsave/mapmaker-local-save-poc.html":"localsave",
+  "mapchecker/index.html":"audit",
+  "distributorHub/Distributor_Hub_Wireframe.html":"wireframe",
+  "datagallery/index.html":"tiles",
+  "mapmakergiantmaps/mapmaker-poster-poc.html":"poster",
+  "profile/elevation-profile-tool.html":"profile",
+  "data-agent/mapmaker-fieldwork-local-save.html":"fieldsave",
+  "data-agent/mapmaker-fieldwork-signin-poc.html":"fieldsignin",
+  "esrifr/atlas-fieldwork-fr.html":"fieldfr",
+  "fieldwork-agent/index.html":"fieldagent",
+  "mapmaker-fieldwork-canvas/index.html":"field",
+  "Vera/vera_canvas.html":"chat",
+  "mediaspace/gallery.html":"videogrid",
+  "Mapmakervideo/index.html":"video",
+  "MapMaker-How-to/player.html":"player",
+  "localnews/news_geoparser.html":"news",
+  "monitoring/lebanon_drone_strike_tracker.html":"incidents"
+};
+
+// Tiny SVG helpers. Scene is 320×180.
+const V = n => `var(--${n})`;
+const P = (d, f="none", s="none", w=0, x="") => `<path d="${d}" fill="${f}" stroke="${s}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" ${x}/>`;
+const C = (cx,cy,r,f,s="none",w=0,x="") => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f}" stroke="${s}" stroke-width="${w}" ${x}/>`;
+const R = (x,y,w,h,f,rx=3,s="none",sw=0,e="") => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" stroke="${s}" stroke-width="${sw}" ${e}/>`;
+const T = (x,y,t,sz=11,f=V("t-ink"),e="") => `<text x="${x}" y="${y}" font-family="IBM Plex Mono,monospace" font-size="${sz}" fill="${f}" ${e}>${t}</text>`;
+const grid = () => { let g=""; for(let x=20;x<320;x+=40) g+=P(`M${x} 0V180`,"none",V("t-line"),.6); for(let y=20;y<180;y+=40) g+=P(`M0 ${y}H320`,"none",V("t-line"),.6); return g; };
+const pin = (x,y,f=V("cc")) => P(`M${x} ${y}c-6-8-9-11-9-15a9 9 0 0 1 18 0c0 4-3 7-9 15z`, f) + C(x,y-15,3.2,V("t-paper"));
+const cone = (cx,base,h,w) => P(`M${cx-w} ${base}L${cx-14} ${base-h}Q${cx} ${base-h-4} ${cx+14} ${base-h}L${cx+w} ${base}Z`, V("t-land"), V("t-ink"), 1.2) + P(`M${cx-14} ${base-h}Q${cx} ${base-h+6} ${cx+14} ${base-h}`,"none",V("t-ink"),1.2);
+const plume = (cx,top) => [0,1,2,3].map(i=>C(cx-10+i*8+(i%2)*4, top-10-i*9, 11+i*2, V("t-line"), V("t-ink"), .8, 'opacity=".9"')).join("");
+const mapWin = (x,y,w,h) => R(x,y,w,h,V("t-paper"),4,V("t-line"),1) + R(x,y,w,12,V("t-line"),4) + P(`M${x+8} ${y+h-10}C${x+w*.3} ${y+h*.4} ${x+w*.55} ${y+h*.9} ${x+w-8} ${y+h*.35}`,"none",V("t-water"),6) + P(`M${x+w*.15} ${y+h*.35}l${w*.12} ${h*.18}l${w*.1} -${h*.12}`,"none",V("t-land"),5);
+const csv = (x,y) => R(x,y,78,96,V("t-paper"),4,V("t-line"),1) + T(x+8,y+16,"lat,lon",10,V("cc")) + [0,1,2,3,4].map(i=>R(x+8,y+26+i*13,62,6,V("t-line"),2)).join("") ;
+const arrow = (x1,y,x2) => P(`M${x1} ${y}H${x2}M${x2-7} ${y-6}L${x2} ${y}L${x2-7} ${y+6}`,"none",V("cc"),3);
+const globe = (cx,cy,r,extra="") => C(cx,cy,r,V("t-water"),V("t-ink"),1.2) + extra + [0.35,0.7].map(k=>P(`M${cx} ${cy-r}A${r*k} ${r} 0 0 0 ${cx} ${cy+r}A${r*k} ${r} 0 0 0 ${cx} ${cy-r}`,"none",V("t-ink"),.6,'opacity=".5"')).join("") + P(`M${cx-r} ${cy}H${cx+r}M${cx-r*.87} ${cy-r/2}H${cx+r*.87}M${cx-r*.87} ${cy+r/2}H${cx+r*.87}`,"none",V("t-ink"),.6,'opacity=".5"');
+const headset = (x,y) => R(x,y,50,24,V("t-ink"),8) + C(x+14,y+12,6,V("cc")) + C(x+36,y+12,6,V("cc"));
+const table = () => P("M40 160L90 120H230L280 160Z", V("t-paper"), V("t-line"), 1);
+
+const SCENES = {
+  hurricane(){ let s=grid(); for(let i=0;i<5;i++) s+=P("M160 90C160 60 200 45 225 62C245 76 240 100 225 108",`none`,i%2?V("t-cold"):V("cc"),7-i,`transform="rotate(${i*72} 160 90)" opacity="${.9-i*.1}"`); return s+C(160,90,10,V("t-paper"),V("t-ink"),1.5)+T(250,165,"cat 4",11); },
+  hazards(){ const z=[["t-hot",150],["t-warm",110],["cc",70],["t-cold",35]]; let s=grid(); z.forEach(([c,a],i)=>s+=P(`M160 120L${160-a} ${170}A${a} 40 0 0 0 ${160+a*.6} 170Z`,V(c),"none",0,'opacity=".35"')); s+=cone(160,128,58,60)+plume(165,82); [1,2,3,4].forEach((n,i)=>s+=C(40+i*28,24,9,V("t-paper"),V("t-ink"),1)+T(36.5+i*28,28,n,10)); return s; },
+  lava(){ let s=grid()+cone(160,150,75,90); ["M160 78C150 100 130 120 110 150","M162 78C170 105 190 125 215 152","M158 80C155 110 160 130 150 152"].forEach(d=>s+=P(d,"none",V("t-hot"),5)); return s+R(50,146,20,10,V("t-ink"),1)+R(235,146,16,10,V("t-ink"),1)+T(18,170,"San Sebastiano",9)+T(210,170,"Massa",9); },
+  vrhazards(){ return grid()+table()+`<g transform="translate(0,-18)">`+cone(160,148,48,58)+P("M160 110L100 150A70 20 0 0 0 200 150Z",V("t-warm"),"none",0,'opacity=".5"')+`</g>`+headset(240,20); },
+  vrlava(){ return grid()+table()+`<g transform="translate(0,-18)">`+cone(160,148,48,58)+P("M160 102C150 118 135 130 120 146M162 102C172 120 185 130 205 146","none",V("t-hot"),4)+`</g>`+headset(240,20); },
+  xsec(){ return grid()+P("M0 40L70 42C95 60 100 150 160 150S225 60 250 42L320 40V180H0Z",V("t-land"),V("t-ink"),1.2)+P("M72 60C95 75 105 140 160 142S225 75 248 60Z",V("t-ice"),V("t-cold"),1.2)+T(18,30,"N",11)+T(294,30,"S",11)+T(126,172,"El Capitan →",9); },
+  valley3d(){ return grid()+P("M0 70L90 40L150 95L210 38L320 70V180H0Z",V("t-land"),V("t-ink"),1.2)+P("M150 95C140 120 115 150 100 180H200C185 150 160 120 150 95Z",V("t-ice"),V("t-cold"),1.2)+P("M90 40L120 70L150 95M210 38L180 70L150 95","none",V("t-ink"),.8,'opacity=".6"'); },
+  landforms(){ return grid()+globe(160,92,68, P("M110 110l18-30 14 18 12-24 20 36Z",V("t-land"),V("t-ink"),1)+P("M150 60c10-6 30-4 40 6s-10 16-24 12-24-12-16-18z",V("t-land"),V("t-ink"),1)) + P("M240 150H300M240 150l14-22 12 12 10-18 24 28","none",V("cc"),2.5); },
+  currents(){ return grid()+globe(160,90,70, P("M110 70C130 55 170 55 200 70","none",V("t-hot"),4)+P("M205 72l-8-7M205 72l-10 2","none",V("t-hot"),3)+P("M200 115C170 128 135 128 115 112","none",V("t-cold"),4)+P("M112 110l10 0M112 110l3 9","none",V("t-cold"),3)); },
+  drift(){ let s=grid(); for(let y=40;y<180;y+=26) s+=P(`M0 ${y}q20-8 40 0t40 0t40 0t40 0t40 0t40 0t40 0t40 0`,"none",V("t-water"),2); [[80,60],[120,80],[150,70],[190,100],[210,85],[240,120],[170,120],[260,95]].forEach(([x,y])=>s+=C(x,y,4,V("cc"))); return s+`<g transform="rotate(-25 110 120)">`+R(90,114,34,12,V("t-paper"),5,V("t-ink"),1.2)+R(124,117,8,6,V("t-ink"),1)+`</g>`; },
+  grocery(){ let s=grid(); for(let i=0;i<5;i++) for(let j=0;j<3;j++) s+=R(40+i*48,30+j*44,36,32,(i>=3&&j>=1)?V("t-warm"):V("t-paper"),2,V("t-line"),1,(i>=3&&j>=1)?'opacity=".45"':""); return s+R(200,78,36,32,V("cc"),2)+P("M208 90h20l-3 10h-14z","none",V("t-paper"),2)+C(212,104,2,V("t-paper"))+C(224,104,2,V("t-paper"))+T(42,172,"food desert",9); },
+  quizglobe(){ return grid()+globe(150,92,68, P("M100 70c12-10 34-8 40 4s-6 26-20 26-28-18-20-30zM160 100c10-4 30 0 34 14s-18 20-30 12-12-22-4-26z",V("t-land"),V("t-ink"),1))+R(236,30,60,40,V("t-paper"),6,V("cc"),2)+T(258,57,"?",20,V("cc"))+T(236,160,"8 / 10",12,V("cc")); },
+  labelvolcano(){ let s=grid()+cone(120,160,85,95)+P("M120 160V80","none",V("t-hot"),5)+C(120,160,10,V("t-hot")); [["crater",60],["vent",95],["magma",140]].forEach(([t,y])=>s+=P(`M${t==="magma"?130:135} ${y+ (t==="crater"?20:0)}L210 ${y}`,"none",V("t-ink"),1,'stroke-dasharray="3 3"')+R(210,y-11,70,20,V("t-paper"),4,V("cc"),1.5)+T(218,y+3,t,10)); return s; },
+  tips(){ let s=grid(); for(let i=0;i<5;i++){ s+=C(56,32+i*28,10,V("cc"))+T(52.5,36+i*28,i+1,10,V("t-paper"))+R(76,27+i*28,180-i*18,9,V("t-paper"),3,V("t-line"),1); } return s+pin(280,90); },
+  atlassave(){ return grid()+mapWin(30,24,200,132)+pin(120,90)+R(244,50,50,62,V("t-paper"),4,V("cc"),2)+P("M258 64h22v16h-22zM262 96h14","none",V("cc"),2)+T(244,132,".json",10,V("cc"))+R(46,120,40,24,V("t-paper"),2,V("t-line"),1)+T(49,136,"csv",9); },
+  localsave(){ return grid()+mapWin(30,24,180,132)+pin(90,80)+pin(150,110)+arrow(214,90,240)+R(244,58,52,64,V("t-paper"),4,V("cc"),2)+P("M256 70h28v18h-28zM262 104h16","none",V("cc"),2)+T(246,140,"no account",9,V("cc")); },
+  audit(){ let s=grid()+mapWin(24,24,130,132); [["✓",V("cc")],["✓",V("cc")],["✗",V("t-hot")],["✓",V("cc")]].forEach(([k,c],i)=>s+=T(176,48+i*26,k,14,c)+R(194,38+i*26,80,9,V("t-paper"),3,V("t-line"),1)); return s+T(180,166,"score 82",12,V("cc")); },
+  wireframe(){ return grid()+R(30,20,260,140,V("t-paper"),4,V("t-line"),1.2)+R(30,20,260,18,V("cc"),4)+R(42,50,60,98,"none",3,V("t-line"),1,'stroke-dasharray="4 3"')+[0,1,2].map(i=>R(114+i*58,50,50,44,"none",3,V("t-line"),1,'stroke-dasharray="4 3"')).join("")+R(114,104,166,44,"none",3,V("t-line"),1,'stroke-dasharray="4 3"'); },
+  tiles(){ let s=grid(); for(let i=0;i<4;i++) for(let j=0;j<2;j++) s+=mapWin(28+i*68,28+j*66,60,56); return s; },
+  poster(){ let s=grid()+R(40,24,240,132,V("t-water"),2)+P("M60 140C90 60 150 50 200 90S260 120 270 40V156H60Z",V("t-land")); for(let x=100;x<280;x+=60) s+=P(`M${x} 24V156`,"none",V("t-ink"),1.2,'stroke-dasharray="5 4"'); return s+P("M40 90H280","none",V("t-ink"),1.2,'stroke-dasharray="5 4"')+T(250,172,"A4 × 8",10); },
+  profile(){ return grid()+R(0,120,320,60,V("t-water"),0,"none",0,'opacity=".6"')+P("M0 150L40 120L80 90L110 100L150 50L190 85L220 110L250 125L280 160L320 170V180H0Z",V("t-land"),V("t-ink"),1.4)+P("M0 120H320","none",V("t-cold"),1,'stroke-dasharray="4 3"')+C(150,50,4,V("cc"))+T(158,46,"1,842 m",10); },
+  field(){ return grid()+csv(28,42)+arrow(116,90,150)+mapWin(160,30,132,120)+pin(200,90)+pin(236,70)+pin(254,120); },
+  fieldsave(){ return SCENES.field().replace(/<\/svg>$/,"")+R(262,132,26,26,V("cc"),3)+P("M268 138h14v6h-14z","none",V("t-paper"),1.5); },
+  fieldsignin(){ return SCENES.field()+C(276,138,11,V("cc"))+C(276,134,3.5,V("t-paper"))+P("M269 145a7 6 0 0 1 14 0","none",V("t-paper"),2); },
+  fieldfr(){ return SCENES.field()+R(252,130,38,22,V("cc"),4)+T(260,146,"FR",12,V("t-paper")); },
+  fieldagent(){ return SCENES.field()+R(258,128,30,26,V("cc"),6)+C(267,139,3,V("t-paper"))+C(279,139,3,V("t-paper"))+P("M266 148h14","none",V("t-paper"),2); },
+  chat(){ return grid()+R(40,30,170,36,V("t-paper"),12,V("t-line"),1)+R(110,78,170,36,V("cc"),12)+R(40,126,130,30,V("t-paper"),12,V("t-line"),1)+[0,1,2].map(i=>C(60+i*14,141,4,V("t-line"))).join("")+R(56,44,120,7,V("t-line"),3)+R(126,92,130,7,V("t-paper"),3,"none",0,'opacity=".7"'); },
+  videogrid(){ let s=grid(); for(let i=0;i<3;i++) for(let j=0;j<2;j++){ const x=34+i*88,y=30+j*66; s+=R(x,y,76,54,V("t-paper"),4,V("t-line"),1)+P(`M${x+32} ${y+17}l16 10l-16 10z`,V("cc")); } return s; },
+  video(){ return grid()+R(50,26,220,128,V("t-ink"),6)+C(160,90,24,V("cc"))+P("M153 78l20 12l-20 12z",V("t-paper"))+R(66,138,188,4,V("t-line"),2)+R(66,138,80,4,V("cc"),2); },
+  player(){ return SCENES.video()+[["1×",200],["1.5×",232]].map(([t,x])=>R(x-4,34,30,18,V("t-paper"),4)+T(x,47,t,9)).join(""); },
+  news(){ let s=grid()+R(34,24,130,132,V("t-paper"),3,V("t-line"),1)+R(46,36,106,12,V("t-ink"),2); for(let i=0;i<7;i++) s+=R(46,58+i*13,i===2?60:106,6,V("t-line"),2); return s+R(66,82,32,8,V("cc"),2,"none",0,'opacity=".6"')+arrow(170,90,196)+mapWin(204,40,96,100)+pin(240,100)+pin(268,78); },
+  incidents(){ let s=grid()+mapWin(28,22,264,112); [[90,70],[120,86],[140,62],[180,96],[210,74],[230,104]].forEach(([x,y])=>s+=C(x,y,6,V("t-hot"),V("t-paper"),1.5)); s+=P("M28 160H292","none",V("t-line"),3); [60,110,170,240].forEach(x=>s+=C(x,160,4,V("t-hot"))); return s; }
+};
+const thumb = m => `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">${(SCENES[m]||grid)()}</svg>`;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let active = "all";
+
+function url(a, p){ return BASE + a.repo + "/" + (p ?? a.path).replace(/^index\.html$/, ""); }
+function fmt(d){ return new Date(d+"T00:00:00").toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+
+function card(a){
+  const c = CATS[a.cat];
+  const sub = a.sub ? `<div class="sublinks">${a.sub.map(([t,p])=>`<a href="${url(a,p)}" target="_blank" rel="noopener">${esc(t)}</a>`).join("")}</div>` : "";
+  return `<article class="card" style="--cc:var(${c.color})">
+    <a class="thumb" href="${url(a)}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">${a.img ? `<img src="${esc(a.img)}" alt="" loading="lazy">` : thumb(THUMBS[a.repo+"/"+a.path])}</a>
+    <h3><a href="${url(a)}" target="_blank" rel="noopener">${esc(a.title)}</a></h3>
+    <div class="meta"><span class="ver${a.version?"":" none"}">${a.version?"v"+esc(a.version):"no version"}</span><span>updated ${fmt(a.updated)}</span></div>
+    <p>${esc(a.desc)}</p>
+    ${sub}
+    <div class="path">/${esc(a.repo)}/${esc(a.path)}</div>
+    <div class="actions">
+      <a class="btn primary" href="${url(a)}" target="_blank" rel="noopener">Open app</a>
+      <a class="btn" href="${GH+a.repo}/commits/main/${esc(a.path)}" target="_blank" rel="noopener">History</a>
+      <a class="btn" href="${GH+a.repo}" target="_blank" rel="noopener">Code</a>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const sort = $("#sort").value;
+  let list = APPS.filter(a => (active==="all"||a.cat===active) &&
+    (!q || (a.title+" "+a.desc+" "+a.tags+" "+a.repo).toLowerCase().includes(q)));
+  $("#count").textContent = `${list.length} of ${APPS.length} apps`;
+  if(!list.length){ $("#out").innerHTML = `<p class="empty">No apps match “${esc(q)}”. Clear the search or pick another category.</p>`; return; }
+  if(sort==="group"){
+    $("#out").innerHTML = Object.entries(CATS).map(([k,c])=>{
+      const items = list.filter(a=>a.cat===k); if(!items.length) return "";
+      return `<section><h2>${c.name}<span class="n">${items.length}</span></h2><p class="sub">${c.sub}</p><div class="grid">${items.map(card).join("")}</div></section>`;
+    }).join("");
+  } else {
+    list = [...list].sort(sort==="recent" ? (a,b)=>b.updated.localeCompare(a.updated) : (a,b)=>a.title.localeCompare(b.title));
+    $("#out").innerHTML = `<div class="grid">${list.map(card).join("")}</div>`;
+  }
+}
+
+$("#chips").innerHTML = [["all","All",null],...Object.entries(CATS).map(([k,c])=>[k,c.name,c.color])]
+  .map(([k,n,col])=>`<button class="chip" data-k="${k}" aria-pressed="${k==="all"}" ${col?`style="--cc:var(${col})"`:""}>${col?'<span class="dot"></span>':""}${n}</button>`).join("");
+$("#chips").addEventListener("click", e=>{
+  const b = e.target.closest(".chip"); if(!b) return;
+  active = b.dataset.k;
+  document.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed", x===b));
+  render();
+});
+$("#q").addEventListener("input", render);
+$("#sort").addEventListener("change", render);
+render();
+</script>
+</body></html>
