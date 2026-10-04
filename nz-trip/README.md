@@ -24,6 +24,7 @@ Live at **https://jsawle.github.io/gallery/nz-trip/**
 - Nominatim search (OpenStreetMap Foundation)
 - Photos: main image of each place's Wikipedia article, from Wikimedia Commons, credited on each photo
 - Place and directions links open Google Maps
+- Each place links to its official site, DOC page or regional tourism page (all checked when added)
 
 ## Releasing
 When changing `app.js` or `app.css`, bump `APP_VERSION` in `app.js` and the `?v=` numbers in `index.html` to match, so browsers load the new files together.
@@ -31,9 +32,10 @@ When changing `app.js` or `app.css`, bump `APP_VERSION` in `app.js` and the `?v=
 ## Versions
 | Part | Version |
 |---|---|
-| App | 3.2.4 |
-| Itinerary data | 1.1 |
+| App | 3.3.0 |
+| Itinerary data | 1.2 |
 | Road routing | 1.0 |
 | Date calculator | 1.0 |
-| Photos | 1.0 |
+| Photos | 1.1 |
+| Links | 1.0 |
 

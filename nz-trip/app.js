@@ -5,13 +5,14 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.2.4";
+const APP_VERSION = "3.3.0";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
   ["Road routing", "1.0", "OSRM car profile per leg; geometry thinned to ~60 m; cached per pair of points"],
   ["Date calculator", "1.0", "Arrival = start date + nights at earlier stops (UTC, no time zones)"],
-  ["Photos", "1.0", "Main photo of each place's Wikipedia article, from Wikimedia Commons with credit and licence; maps, flags and logos skipped; non-free images skipped"],
+  ["Photos", "1.1", "Checked photo per place: a named Wikimedia Commons file, or the main photo of the place's Wikipedia article; credit and licence shown; maps, flags, logos and non-free images skipped"],
+  ["Links", "1.0", "Checked official, DOC and tourism links per place, plus Wikipedia for places to visit"],
 ];
 const STORE_KEY = "nztrip:trip:v1";
 const CACHE_KEY = "nztrip:legs:v1";
@@ -114,7 +115,12 @@ async function boot() {
   if (!trip || !valid(trip)) trip = clone(original);
   else if (original) {            // older saved copies have no photo links: borrow them from the original by id
     const byId = {}; original.stops.forEach((s) => { byId[s.id] = s; (s.pois || []).forEach((p) => (byId[p.id] = p)); });
-    trip.stops.forEach((s) => { [s, ...(s.pois || [])].forEach((o) => { if (!o.wiki && !o.img && byId[o.id] && byId[o.id].wiki && byId[o.id].name === o.name) o.wiki = byId[o.id].wiki; }); });
+    // Saved copies pick up corrected photos and links from the original, unless someone changed them by hand
+    trip.stops.forEach((s) => { [s, ...(s.pois || [])].forEach((o) => {
+      const src = byId[o.id]; if (!src || src.name !== o.name) return;
+      if (!o.photoSet) { delete o.wiki; delete o.img; if (src.wiki) o.wiki = src.wiki; if (src.img) o.img = src.img; }
+      if (!o.linksSet) { if (src.links) o.links = clone(src.links); else delete o.links; }
+    }); });
   }
   if (!trip) { toast("Couldn't load the itinerary. Check your connection and reload."); return; }
 
@@ -270,7 +276,7 @@ function heroHtml(o, name) {
 }
 function thumbHtml(o, cls = "thumb") { const ph = photo(o); return ph ? `<img class="${cls}" src="${esc(ph.src)}" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'">` : ""; }
 function setPhotoFrom(o, val) {
-  val = val.trim();
+  val = val.trim(); o.photoSet = true;
   delete o.img;
   if (!val) { delete o.wiki; return; }
   if (/^https:\/\//.test(val) && !/wikipedia\.org\/wiki\//.test(val)) o.img = val;
@@ -279,6 +285,26 @@ function setPhotoFrom(o, val) {
 }
 function photoField(o, id) {
   return `<label>Photo: Wikipedia article, Commons file or image link<input id="${id}" value="${esc(o.img || o.wiki || "")}" placeholder="e.g. Lake Tekapo"></label>`;
+}
+
+/* ---------------- attraction links ---------------- */
+const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : null);
+function linksHtml(o, withWiki) {
+  const ls = (o.links || []).filter((l) => safeUrl(l.url));
+  if (withWiki && o.wiki) ls.push({ label: "Wikipedia", url: "https://en.wikipedia.org/wiki/" + encodeURIComponent(o.wiki.replace(/ /g, "_")) });
+  if (!ls.length) return "";
+  return `<div class="section-t">Links</div><ul class="ext-links">${ls.map((l) => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || l.url)}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg><span class="sr"> (opens in a new tab)</span></a></li>`).join("")}</ul>`;
+}
+function linksField(o, id) {
+  const v = (o.links || []).map((l) => `${l.label} | ${l.url}`).join("\n");
+  return `<label>Links (one per line: name | https://…)<textarea id="${id}" style="min-height:64px" placeholder="DOC: Hooker Valley Track | https://www.doc.govt.nz/…">${esc(v)}</textarea></label>`;
+}
+function setLinksFrom(o, val) {
+  o.linksSet = true;
+  o.links = val.split("\n").map((line) => {
+    const m = line.split("|"); const url = (m.length > 1 ? m.slice(1).join("|") : m[0]).trim(); const label = m.length > 1 ? m[0].trim() : "";
+    return safeUrl(url) ? { label: label || url.replace(/^https?:\/\/(www\.)?/, "").split("/")[0], url } : null;
+  }).filter(Boolean);
 }
 
 /* ---------------- Google Maps links ---------------- */
@@ -496,6 +522,7 @@ function stopView(box, i) {
     <p class="links"><a href="${gmapsPlace(s)}" target="_blank" rel="noopener">Open in Google Maps</a>${i > 0 ? `<span class="sep"> · </span><a href="${gmapsDir(trip.stops[i - 1], s)}" target="_blank" rel="noopener">Directions from ${esc(trip.stops[i - 1].name)}</a>` : ""}</p>
     ${s.highlights?.length ? `<ul>${s.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}
     ${s.tip ? `<div class="tip"><b>Tip</b> ${esc(s.tip)}</div>` : ""}
+    ${linksHtml(s, false)}
     ${pois.length ? `<div class="section-t">Places nearby</div><ul class="poi-list">${pois.map((p) => {
       const t = POI_TYPES[p.type] || POI_TYPES.other;
       return `<li><button class="poi-btn" data-poi="${p.id}">${thumbHtml(p) || `<span class="thumb ph" aria-hidden="true">${t[0]}</span>`}<span><div class="pn">${esc(p.name)}</div>${p.notes ? `<div class="pd">${esc(p.notes)}</div>` : ""}</span></button></li>`; }).join("")}</ul>` : ""}
@@ -522,6 +549,7 @@ function stopEditor(box, i) {
       <label>Things to do (one per line)<textarea id="f-hi">${esc((s.highlights || []).join("\n"))}</textarea></label>
       <label>Tip<textarea id="f-tip" style="min-height:60px">${esc(s.tip || "")}</textarea></label>
       ${photoField(s, "f-photo")}
+      ${linksField(s, "f-links")}
       <p class="hint">To move this stop, drag its pin on the map. Arrives ${fmtD(arrival(i))}.</p>
     </form>
     <div class="row">
@@ -541,8 +569,9 @@ function stopEditor(box, i) {
     save(); renderSummary(); renderList();
     const el = stopMarkers.get(s.id)?.getElement(); if (el) { el.title = s.name; el.setAttribute("aria-label", s.name); }
   };
-  box.querySelectorAll("#f-stop input:not(#f-photo), #f-stop textarea").forEach((el) => el.addEventListener("input", upd));
+  box.querySelectorAll("#f-stop input:not(#f-photo), #f-stop textarea:not(#f-links)").forEach((el) => el.addEventListener("input", upd));
   $("#f-photo").addEventListener("change", (e) => { setPhotoFrom(s, e.target.value); save(); loadPhotos(); toast("Photo updated"); });
+  $("#f-links").addEventListener("change", (e) => { setLinksFrom(s, e.target.value); save(); toast("Links saved"); });
   $("#f-stop").addEventListener("submit", (e) => { e.preventDefault(); detailMode = "view"; renderDetail(); });
   wireDetail(box, i);
 }
@@ -552,6 +581,7 @@ function poiView(box, s, p) {
     <h3 tabindex="-1">${esc(p.name)}</h3>
     <div class="meta">${t[0]} ${t[1]} · near ${esc(s.name)}</div>
     ${p.notes ? `<p>${esc(p.notes)}</p>` : ""}
+    ${linksHtml(p, true)}
     <p class="links"><a href="${gmapsPlace(p)}" target="_blank" rel="noopener">Open in Google Maps</a><span class="sep"> · </span><a href="${gmapsDir(s, p)}" target="_blank" rel="noopener">Directions from ${esc(s.name)}</a></p>
     <div class="row">
       <button class="btn" data-act="back">← ${esc(s.name)}</button>
@@ -569,6 +599,7 @@ function poiEditor(box, s, p) {
       <label>Belongs to stop<select id="p-stop">${trip.stops.map((x, j) => `<option value="${x.id}" ${x.id === s.id ? "selected" : ""}>${isAirport(x) ? "✈" : labelFor(j) + "."} ${esc(x.name)}</option>`).join("")}</select></label>
       <label>Notes<textarea id="p-notes">${esc(p.notes || "")}</textarea></label>
       ${photoField(p, "p-photo")}
+      ${linksField(p, "p-links")}
       <p class="hint">To move this place, drag its icon on the map.</p>
     </form>
     <div class="row">
@@ -589,7 +620,8 @@ function poiEditor(box, s, p) {
     save(); renderMarkers(); renderList();
   };
   $("#p-photo").addEventListener("change", (e) => { setPhotoFrom(p, e.target.value); save(); loadPhotos(); toast("Photo updated"); });
-  box.querySelectorAll("#f-poi input:not(#p-photo), #f-poi textarea, #f-poi select").forEach((el) => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", upd));
+  $("#p-links").addEventListener("change", (e) => { setLinksFrom(p, e.target.value); save(); toast("Links saved"); });
+  box.querySelectorAll("#f-poi input:not(#p-photo), #f-poi textarea:not(#p-links), #f-poi select").forEach((el) => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", upd));
   $("#f-poi").addEventListener("submit", (e) => { e.preventDefault(); detailMode = "view"; renderDetail(); });
   wireDetail(box, stopIndex(s.id), p);
 }

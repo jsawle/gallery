@@ -258,3 +258,11 @@ body.picking #map canvas{cursor:crosshair}
 .credit{border:1px solid var(--glass-edge);cursor:pointer;font:inherit;font-size:12px;font-weight:600}
 .credit .ver{font-variant-numeric:tabular-nums;color:var(--fg)}
 .ver-link{border:0;background:none;padding:4px;font:inherit;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline}
+
+/* external links */
+.ext-links{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.ext-links a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--accent-soft);color:var(--fg);text-decoration:none;font-size:13.5px;font-weight:600;line-height:1.25}
+.ext-links a:hover{background:var(--accent);color:var(--accent-ink)}
+.ext-links svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width: 760px){ .ext-links a{min-height:40px;font-size:14px} }
+.panel-detail .ext-links,.panel-detail .poi-list{padding-left:0}

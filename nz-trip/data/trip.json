@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "dataVersion": "1.1",
+ "dataVersion": "1.2",
  "title": "South Island Slow Loop",
  "start": "2026-12-06",
  "end": "2027-01-23",
@@ -19,7 +19,13 @@
    ],
    "tip": "The trip starts and ends here.",
    "pois": [],
-   "wiki": "Christchurch Airport"
+   "wiki": "Christchurch Airport",
+   "links": [
+    {
+     "label": "Christchurch Airport",
+     "url": "https://www.christchurchairport.co.nz/"
+    }
+   ]
   },
   {
    "id": "s1",
@@ -46,7 +52,13 @@
      "lat": -43.531,
      "lng": 172.62,
      "notes": "Free. Punting on the Avon leaves from the Antigua Boat Sheds nearby.",
-     "wiki": "Christchurch Botanic Gardens"
+     "img": "File:Christchurch Botanic Gardens in autumn.jpg",
+     "links": [
+      {
+       "label": "Christchurch Botanic Gardens",
+       "url": "https://ccc.govt.nz/parks-and-gardens/christchurch-botanic-gardens"
+      }
+     ]
     },
     {
      "id": "p2",
@@ -55,7 +67,13 @@
      "lat": -43.528,
      "lng": 172.597,
      "notes": "Saturday mornings.",
-     "wiki": "Riccarton Bush"
+     "wiki": "Riccarton House",
+     "links": [
+      {
+       "label": "Christchurch Farmers' Market",
+       "url": "https://www.christchurchfarmersmarket.co.nz/"
+      }
+     ]
     },
     {
      "id": "p3",
@@ -64,10 +82,22 @@
      "lat": -43.585,
      "lng": 172.718,
      "notes": "Views over the city, the plains and Lyttelton Harbour.",
-     "wiki": "Christchurch Gondola"
+     "wiki": "Mount Cavendish",
+     "links": [
+      {
+       "label": "Christchurch Gondola",
+       "url": "https://www.christchurchattractions.nz/christchurch-gondola/"
+      }
+     ]
     }
    ],
-   "wiki": "Christchurch"
+   "wiki": "Avon River / Ōtākaro",
+   "links": [
+    {
+     "label": "ChristchurchNZ visitor guide",
+     "url": "https://www.christchurchnz.com/"
+    }
+   ]
   },
   {
    "id": "s2",
@@ -94,7 +124,13 @@
      "lat": -42.425,
      "lng": 173.712,
      "notes": "Start of the Kaikōura Peninsula Walkway. Keep 20 m from the seals.",
-     "wiki": "Kaikōura Peninsula"
+     "wiki": "Kaikōura Peninsula",
+     "links": [
+      {
+       "label": "DOC: Kaikōura Peninsula Walkway",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/kaikoura-area/things-to-do/tracks/kaikoura-peninsula-walkway/"
+      }
+     ]
     },
     {
      "id": "p5",
@@ -103,10 +139,20 @@
      "lat": -42.249,
      "lng": 173.83,
      "notes": "Roadside seal lookout north of town.",
-     "wiki": "New Zealand fur seal"
+     "img": "File:Ohau Point Seal Colony. New Zealand.FZ200 (14315911510).jpg"
     }
    ],
-   "wiki": "Kaikōura"
+   "wiki": "Kaikōura",
+   "links": [
+    {
+     "label": "Kaikōura visitor guide",
+     "url": "https://www.kaikoura.co.nz/"
+    },
+    {
+     "label": "Whale Watch Kaikōura tours",
+     "url": "https://whalewatch.co.nz/your-experience/our-tours/"
+    }
+   ]
   },
   {
    "id": "s3",
@@ -133,7 +179,13 @@
      "lat": -41.3,
      "lng": 173.574,
      "notes": "River swimming hole and short bush walks.",
-     "wiki": "Pelorus Bridge"
+     "wiki": "Pelorus River",
+     "links": [
+      {
+       "label": "DOC: Pelorus Bridge Scenic Reserve",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/pelorus-bridge-scenic-reserve/"
+      }
+     ]
     },
     {
      "id": "p7",
@@ -142,10 +194,30 @@
      "lat": -41.5,
      "lng": 173.85,
      "notes": "Hire bikes in Renwick and ride between cellar doors.",
-     "wiki": "Marlborough wine region"
+     "wiki": "Marlborough wine region",
+     "links": [
+      {
+       "label": "Marlborough wine trails by bike",
+       "url": "https://marlboroughnz.com/explore-marlborough/see-do/biking/wine-trails/"
+      },
+      {
+       "label": "Marlborough cellar doors",
+       "url": "https://www.marlboroughwinenz.com/visit-us"
+      }
+     ]
     }
    ],
-   "wiki": "Marlborough Sounds"
+   "wiki": "Havelock, New Zealand",
+   "links": [
+    {
+     "label": "DOC: Queen Charlotte Track",
+     "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/marlborough/places/queen-charlotte-sound-totaranui-area/things-to-do/tracks/queen-charlotte-track/"
+    },
+    {
+     "label": "Marlborough: Greenshell mussels",
+     "url": "https://marlboroughnz.com/explore-marlborough/eat/greenshell-mussels/"
+    }
+   ]
   },
   {
    "id": "s4",
@@ -172,7 +244,13 @@
      "lat": -41.042,
      "lng": 173.035,
      "notes": "Short walk from Tokongawa Drive, or by kayak.",
-     "wiki": "Split Apple Rock"
+     "img": "File:Split Apple Rock Abel Tasman National Park New Zealand.jpg",
+     "links": [
+      {
+       "label": "Split Apple Rock",
+       "url": "https://www.nelsontasman.nz/scenic-attractions/split-apple-rock/"
+      }
+     ]
     },
     {
      "id": "p9",
@@ -181,7 +259,17 @@
      "lat": -40.958,
      "lng": 173.059,
      "notes": "Popular water-taxi drop-off; walk back to Marahau (12 km) or just swim.",
-     "wiki": "Abel Tasman Coast Track"
+     "wiki": "Abel Tasman Coast Track",
+     "links": [
+      {
+       "label": "DOC: Abel Tasman Coast Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/tracks/abel-tasman-coast-track/"
+      },
+      {
+       "label": "DOC: Anchorage Hut",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/huts/anchorage-hut/"
+      }
+     ]
     },
     {
      "id": "p10",
@@ -190,7 +278,13 @@
      "lat": -41.256,
      "lng": 173.097,
      "notes": "Fish and chips and small galleries.",
-     "wiki": "Māpua"
+     "img": "File:Mapua wharf 27.jpg",
+     "links": [
+      {
+       "label": "Māpua Wharf",
+       "url": "https://www.mapuawharf.co.nz/"
+      }
+     ]
     },
     {
      "id": "p11",
@@ -199,10 +293,26 @@
      "lat": -41.272,
      "lng": 173.284,
      "notes": "Montgomery Square, Saturday mornings.",
-     "wiki": "Nelson, New Zealand"
+     "wiki": "Nelson, New Zealand",
+     "links": [
+      {
+       "label": "Nelson Market",
+       "url": "https://www.nelsonmarket.co.nz/"
+      }
+     ]
     }
    ],
-   "wiki": "Abel Tasman National Park"
+   "wiki": "Abel Tasman National Park",
+   "links": [
+    {
+     "label": "DOC: Abel Tasman National Park",
+     "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/"
+    },
+    {
+     "label": "Kaiteriteri Reserve",
+     "url": "https://experiencekaiteriteri.co.nz/"
+    }
+   ]
   },
   {
    "id": "s5",
@@ -229,7 +339,13 @@
      "lat": -40.848,
      "lng": 172.771,
      "notes": "Sacred site: look, don't touch the water.",
-     "wiki": "Te Waikoropupū Springs"
+     "wiki": "Te Waikoropupū Springs",
+     "links": [
+      {
+       "label": "DOC: Te Waikoropupū Springs",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/takaka-area/te-waikoropupu-springs/"
+      }
+     ]
     },
     {
      "id": "p13",
@@ -238,7 +354,13 @@
      "lat": -40.502,
      "lng": 172.682,
      "notes": "20-minute walk over dunes. Go at low tide for the caves and arches.",
-     "wiki": "Wharariki Beach"
+     "wiki": "Wharariki Beach",
+     "links": [
+      {
+       "label": "DOC: Wharariki Beach Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/farewell-spit-and-puponga-farm-park/things-to-do/tracks/wharariki-beach-track/"
+      }
+     ]
     },
     {
      "id": "p14",
@@ -246,10 +368,23 @@
      "type": "walk",
      "lat": -40.84,
      "lng": 172.82,
-     "notes": "Easy maze of limestone outcrops; fun with kids."
+     "notes": "Easy maze of limestone outcrops; fun with kids.",
+     "img": "File:Labyrinth rocks park.jpg",
+     "links": [
+      {
+       "label": "Labyrinth Rocks Park",
+       "url": "https://www.nelsontasman.nz/activities-day-trips/labyrinth-rocks-park/"
+      }
+     ]
     }
    ],
-   "wiki": "Golden Bay / Mohua"
+   "wiki": "Tākaka",
+   "links": [
+    {
+     "label": "Golden Bay visitor guide",
+     "url": "https://www.goldenbaynz.co.nz/"
+    }
+   ]
   },
   {
    "id": "s6",
@@ -276,7 +411,13 @@
      "lat": -42.113,
      "lng": 171.326,
      "notes": "20-minute loop walk. Blowholes work best at high tide with a swell.",
-     "wiki": "Pancake Rocks"
+     "wiki": "Pancake Rocks and Blowholes",
+     "links": [
+      {
+       "label": "DOC: Pancake Rocks and Blowholes Walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/pancake-rocks-and-blowholes-walk/"
+      }
+     ]
     },
     {
      "id": "p16",
@@ -285,10 +426,25 @@
      "lat": -42.103,
      "lng": 171.338,
      "notes": "Flat walk up a limestone gorge.",
-     "wiki": "Pororari River"
+     "links": [
+      {
+       "label": "DOC: Pororari River Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/pororari-river-track/"
+      }
+     ]
     }
    ],
-   "wiki": "Punakaiki"
+   "img": "File:Aerial panorama of Punakaiki.jpg",
+   "links": [
+    {
+     "label": "West Coast: Punakaiki",
+     "url": "https://westcoast.co.nz/visit/discover/regions/punakaiki/"
+    },
+    {
+     "label": "DOC: Punakaiki–Pororari Loop",
+     "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/paparoa-national-park/things-to-do/tracks/punakaiki-pororari-loop/"
+    }
+   ]
   },
   {
    "id": "s7",
@@ -315,7 +471,13 @@
      "lat": -42.954,
      "lng": 171.006,
      "notes": "On the way down: turquoise river and swing bridge. About 40 min detour.",
-     "wiki": "Hokitika Gorge"
+     "wiki": "Hokitika Gorge",
+     "links": [
+      {
+       "label": "DOC: Hokitika Gorge Walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/hokitika-gorge-scenic-reserve/things-to-do/tracks/hokitika-gorge-walk/"
+      }
+     ]
     },
     {
      "id": "p18",
@@ -324,7 +486,13 @@
      "lat": -43.43,
      "lng": 170.18,
      "notes": "About 1.5 h return to the viewpoint.",
-     "wiki": "Franz Josef Glacier"
+     "wiki": "Franz Josef Glacier",
+     "links": [
+      {
+       "label": "DOC: Franz Josef Glacier walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/westland-tai-poutini-national-park/things-to-do/tracks/franz-josef-glacierka--roimata-o-hine-hukatere-walk/"
+      }
+     ]
     },
     {
      "id": "p19",
@@ -333,7 +501,13 @@
      "lat": -43.443,
      "lng": 169.966,
      "notes": "Go early on a still morning for the reflection.",
-     "wiki": "Lake Matheson"
+     "wiki": "Lake Matheson",
+     "links": [
+      {
+       "label": "Lake Matheson walk",
+       "url": "https://www.glaciercountry.co.nz/gct_walks/lake-matheson-te-ara-kairaumati-walk/"
+      }
+     ]
     },
     {
      "id": "p20",
@@ -342,10 +516,26 @@
      "lat": -43.22,
      "lng": 170.16,
      "notes": "Kayak the lagoon; kōtuku (white heron) country.",
-     "wiki": "Okarito"
+     "wiki": "Ōkārito Lagoon",
+     "links": [
+      {
+       "label": "DOC: Ōkārito",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/west-coast/places/okarito-area/"
+      },
+      {
+       "label": "Okarito Kayaks",
+       "url": "https://okarito.co.nz/"
+      }
+     ]
     }
    ],
-   "wiki": "Franz Josef / Waiau"
+   "wiki": "Franz Josef / Waiau",
+   "links": [
+    {
+     "label": "Glacier Country: Franz Josef",
+     "url": "https://www.glaciercountry.co.nz/glacier-country/franz-jozef-glacier/"
+    }
+   ]
   },
   {
    "id": "s8",
@@ -371,7 +561,13 @@
      "type": "swim",
      "lat": -44.159,
      "lng": 169.276,
-     "notes": "On the Haast Pass drive in. 30-minute return walk."
+     "notes": "On the Haast Pass drive in. 30-minute return walk.",
+     "links": [
+      {
+       "label": "DOC: Blue Pools Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/blue-pools-track/"
+      }
+     ]
     },
     {
      "id": "p22",
@@ -380,7 +576,7 @@
      "lat": -44.696,
      "lng": 169.132,
      "notes": "Short walk along the lakefront.",
-     "wiki": "That Wanaka Tree"
+     "img": "File:Wanaka tree.jpg"
     },
     {
      "id": "p23",
@@ -389,7 +585,13 @@
      "lat": -44.5,
      "lng": 168.74,
      "notes": "From Raspberry Creek car park, 3-4 h return. Gravel road with fords.",
-     "wiki": "Rob Roy Glacier"
+     "wiki": "Rob Roy Glacier",
+     "links": [
+      {
+       "label": "DOC: Rob Roy Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/mount-aspiring-national-park/things-to-do/tracks/rob-roy-track/"
+      }
+     ]
     },
     {
      "id": "p24",
@@ -398,10 +600,22 @@
      "lat": -44.701,
      "lng": 169.16,
      "notes": "Good on a rainy day.",
-     "wiki": "Puzzling World"
+     "img": "File:Puzzling World, New Zealand.jpg",
+     "links": [
+      {
+       "label": "Puzzling World",
+       "url": "https://www.puzzlingworld.co.nz/"
+      }
+     ]
     }
    ],
-   "wiki": "Wānaka"
+   "wiki": "Wānaka",
+   "links": [
+    {
+     "label": "Wānaka visitor guide",
+     "url": "https://www.newzealand.com/int/wanaka/"
+    }
+   ]
   },
   {
    "id": "s9",
@@ -428,7 +642,13 @@
      "lat": -44.936,
      "lng": 168.83,
      "notes": "Restored huts of gold-rush era Chinese miners.",
-     "wiki": "Arrowtown Chinese Settlement"
+     "img": "File:Arrowtown Chinese Settlement.jpg",
+     "links": [
+      {
+       "label": "DOC: Arrowtown Chinese Settlement",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/arrowtown-area/things-to-do/arrowtown-chinese-settlement/"
+      }
+     ]
     },
     {
      "id": "p26",
@@ -437,7 +657,17 @@
      "lat": -44.98,
      "lng": 168.81,
      "notes": "8 km flat loop, good café at the end.",
-     "wiki": "Lake Hayes"
+     "wiki": "Lake Hayes",
+     "links": [
+      {
+       "label": "DOC: Lake Hayes Walkway",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/arrowtown-area/things-to-do/lake-hayes-walkway/"
+      },
+      {
+       "label": "Queenstown Trail: Lake Hayes",
+       "url": "https://queenstowntrails.org.nz/maps-and-trails/all-trails/lake-hayes-trail/"
+      }
+     ]
     },
     {
      "id": "p27",
@@ -446,7 +676,13 @@
      "lat": -45.03,
      "lng": 168.65,
      "notes": "Queenstown; luge at the top.",
-     "wiki": "Skyline Queenstown"
+     "img": "File:Skyline Queenstown Gondola.jpg",
+     "links": [
+      {
+       "label": "Skyline Queenstown gondola",
+       "url": "https://queenstown.skyline.co.nz/things-to-do/queenstown-gondola/"
+      }
+     ]
     },
     {
      "id": "p28",
@@ -455,10 +691,22 @@
      "lat": -44.85,
      "lng": 168.39,
      "notes": "45-minute lakeside drive from Queenstown.",
-     "wiki": "Glenorchy, New Zealand"
+     "wiki": "Glenorchy, New Zealand",
+     "links": [
+      {
+       "label": "Glenorchy visitor guide",
+       "url": "https://www.queenstownnz.co.nz/plan/surrounding-region/glenorchy/"
+      }
+     ]
     }
    ],
-   "wiki": "Arrowtown"
+   "wiki": "Arrowtown",
+   "links": [
+    {
+     "label": "Arrowtown visitor guide",
+     "url": "https://www.queenstownnz.co.nz/plan/surrounding-region/arrowtown/"
+    }
+   ]
   },
   {
    "id": "s10",
@@ -485,7 +733,13 @@
      "lat": -44.671,
      "lng": 167.926,
      "notes": "About 2 h each way from Te Anau. Book the cruise.",
-     "wiki": "Milford Sound"
+     "wiki": "Milford Sound",
+     "links": [
+      {
+       "label": "DOC: Milford Road and Milford Sound",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/places-to-go/milford-road-milford-sound-area/"
+      }
+     ]
     },
     {
      "id": "p30",
@@ -493,7 +747,14 @@
      "type": "view",
      "lat": -44.96,
      "lng": 168.01,
-     "notes": "Short boardwalk on the Milford Road."
+     "notes": "Short boardwalk on the Milford Road.",
+     "img": "File:Mirror Lakes in Fiordland National Park NZ.jpg",
+     "links": [
+      {
+       "label": "DOC: Mirror Lakes Walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/fiordland/places/fiordland-national-park/things-to-do/tracks/mirror-lakes-walk/"
+      }
+     ]
     },
     {
      "id": "p31",
@@ -502,10 +763,22 @@
      "lat": -45.56,
      "lng": 167.61,
      "notes": "Departure point for Doubtful Sound cruises.",
-     "wiki": "Lake Manapouri"
+     "wiki": "Lake Manapouri",
+     "links": [
+      {
+       "label": "Doubtful Sound cruises (RealNZ)",
+       "url": "https://www.realnz.com/en/destinations/doubtful-sound/"
+      }
+     ]
     }
    ],
-   "wiki": "Te Anau"
+   "img": "File:Lake Te Anau.jpg",
+   "links": [
+    {
+     "label": "Fiordland: Te Anau",
+     "url": "https://www.fiordland.org.nz/te-anau-time/"
+    }
+   ]
   },
   {
    "id": "s11",
@@ -532,7 +805,17 @@
      "lat": -46.661,
      "lng": 169.1,
      "notes": "Petrified forest at low tide; penguins at dusk. Keep well back.",
-     "wiki": "Curio Bay"
+     "img": "File:Petrified forest at Curio Bay.jpg",
+     "links": [
+      {
+       "label": "DOC: Curio Bay",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/curio-bay-porpoise-bay/"
+      },
+      {
+       "label": "DOC: Petrified Forest Walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/southland/places/curio-bay-porpoise-bay/things-to-do/petrified-forest-walk/"
+      }
+     ]
     },
     {
      "id": "p33",
@@ -541,7 +824,13 @@
      "lat": -46.6,
      "lng": 169.37,
      "notes": "40-minute return walk.",
-     "wiki": "McLean Falls"
+     "wiki": "McLean Falls",
+     "links": [
+      {
+       "label": "DOC: McLean Falls Walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/catlins-coastal-area/things-to-do/mclean-falls-walk/"
+      }
+     ]
     },
     {
      "id": "p34",
@@ -550,7 +839,13 @@
      "lat": -46.545,
      "lng": 169.564,
      "notes": "20-minute return walk.",
-     "wiki": "Purakaunui Falls"
+     "wiki": "Purakaunui Falls",
+     "links": [
+      {
+       "label": "DOC: Purakaunui Falls Walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/catlins-coastal-area/things-to-do/purakaunui-falls-walk/"
+      }
+     ]
     },
     {
      "id": "p35",
@@ -559,10 +854,22 @@
      "lat": -46.448,
      "lng": 169.817,
      "notes": "Lighthouse walk; seals on the rocks below.",
-     "wiki": "Nugget Point"
+     "wiki": "Nugget Point",
+     "links": [
+      {
+       "label": "DOC: Nugget Point walks",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/catlins-coastal-area/things-to-do/nugget-point-tokata-walks/"
+      }
+     ]
     }
    ],
-   "wiki": "The Catlins"
+   "img": "File:View from Florence Hill lookout over Tautuku Bay.jpg",
+   "links": [
+    {
+     "label": "Catlins visitor guide",
+     "url": "https://www.catlins.org.nz/"
+    }
+   ]
   },
   {
    "id": "s12",
@@ -589,7 +896,13 @@
      "lat": -45.774,
      "lng": 170.728,
      "notes": "The only mainland royal albatross colony in the world.",
-     "wiki": "Taiaroa Head"
+     "img": "File:Taiaroa Head 2.jpg",
+     "links": [
+      {
+       "label": "Royal Albatross Centre",
+       "url": "https://albatross.org.nz/"
+      }
+     ]
     },
     {
      "id": "p37",
@@ -598,7 +911,17 @@
      "lat": -45.912,
      "lng": 170.487,
      "notes": "Hot salt-water pool on the esplanade.",
-     "wiki": "St Clair, New Zealand"
+     "wiki": "St Clair, New Zealand",
+     "links": [
+      {
+       "label": "St Clair Hot Salt Water Pool",
+       "url": "https://www.dunedin.govt.nz/community-facilities/swimming-pools/st-clair-pool"
+      },
+      {
+       "label": "Dunedin beaches",
+       "url": "https://www.dunedinnz.com/visit/see-and-do/beaches"
+      }
+     ]
     },
     {
      "id": "p38",
@@ -607,10 +930,22 @@
      "lat": -45.875,
      "lng": 170.508,
      "notes": "Railway station, Saturday mornings.",
-     "wiki": "Dunedin railway station"
+     "wiki": "Otago Farmers Market",
+     "links": [
+      {
+       "label": "Otago Farmers Market",
+       "url": "https://otagofarmersmarket.org.nz/"
+      }
+     ]
     }
    ],
-   "wiki": "Otago Peninsula"
+   "img": "File:Harbour Cone Otago Peninsula.jpg",
+   "links": [
+    {
+     "label": "Dunedin: Otago Peninsula",
+     "url": "https://www.dunedinnz.com/visit/around-and-about/day-tripping/otago-peninsula"
+    }
+   ]
   },
   {
    "id": "s13",
@@ -637,7 +972,13 @@
      "lat": -45.345,
      "lng": 170.827,
      "notes": "On the way from Dunedin. Best at low tide.",
-     "wiki": "Moeraki Boulders"
+     "wiki": "Moeraki Boulders",
+     "links": [
+      {
+       "label": "DOC: Moeraki Boulders walk",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/otago/places/moeraki-area/things-to-do/moeraki-boulders-kaihinaki-walk/"
+      }
+     ]
     },
     {
      "id": "p40",
@@ -646,7 +987,13 @@
      "lat": -43.719,
      "lng": 170.093,
      "notes": "From White Horse Hill car park. Three swing bridges.",
-     "wiki": "Hooker Glacier"
+     "wiki": "Hooker Valley Track",
+     "links": [
+      {
+       "label": "DOC: Hooker Valley Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/hooker-valley-track/"
+      }
+     ]
     },
     {
      "id": "p41",
@@ -655,10 +1002,22 @@
      "lat": -43.684,
      "lng": 170.164,
      "notes": "20-minute climb; boat trips on the lake in summer.",
-     "wiki": "Tasman Glacier"
+     "wiki": "Tasman Glacier",
+     "links": [
+      {
+       "label": "DOC: Tasman Glacier View Track",
+       "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park/things-to-do/tracks/tasman-glacier-view-track/"
+      }
+     ]
     }
    ],
-   "wiki": "Aoraki / Mount Cook"
+   "wiki": "Aoraki / Mount Cook",
+   "links": [
+    {
+     "label": "DOC: Aoraki/Mount Cook National Park",
+     "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/canterbury/places/aoraki-mount-cook-national-park"
+    }
+   ]
   },
   {
    "id": "s14",
@@ -685,7 +1044,13 @@
      "lat": -44.005,
      "lng": 170.485,
      "notes": "Busy at sunset; early morning is quieter.",
-     "wiki": "Church of the Good Shepherd (Lake Tekapo)"
+     "wiki": "Church of the Good Shepherd, Lake Tekapo",
+     "links": [
+      {
+       "label": "Church of the Good Shepherd",
+       "url": "https://www.churchofthegoodshepherd.org.nz/"
+      }
+     ]
     },
     {
      "id": "p43",
@@ -693,7 +1058,13 @@
      "type": "swim",
      "lat": -43.998,
      "lng": 170.466,
-     "notes": "Hot pools; book a stargazing soak."
+     "notes": "Hot pools; book a stargazing soak.",
+     "links": [
+      {
+       "label": "Tekapo Springs",
+       "url": "https://tekaposprings.co.nz/"
+      }
+     ]
     },
     {
      "id": "p44",
@@ -702,10 +1073,22 @@
      "lat": -43.985,
      "lng": 170.465,
      "notes": "Walk or drive up; night tours from the village.",
-     "wiki": "Mount John University Observatory"
+     "wiki": "Mount John University Observatory",
+     "links": [
+      {
+       "label": "Dark Sky Project: Summit Experience",
+       "url": "https://darkskyproject.co.nz/experiences/the-summit-experience/"
+      }
+     ]
     }
    ],
-   "wiki": "Lake Tekapo"
+   "wiki": "Lake Tekapo",
+   "links": [
+    {
+     "label": "Lake Tekapo visitor guide",
+     "url": "https://www.mackenzienz.com/visit-lake-tekapo/"
+    }
+   ]
   },
   {
    "id": "s15",
@@ -724,7 +1107,13 @@
    ],
    "tip": "Stay near the airport so departure day is easy.",
    "pois": [],
-   "wiki": "Avon River / Ōtākaro"
+   "wiki": "Riccarton House",
+   "links": [
+    {
+     "label": "ChristchurchNZ: Ōtākaro Avon River",
+     "url": "https://www.christchurchnz.com/visit/things-to-do/get-inspired/experience-the-otakaro-avon-river-in-christchurch"
+    }
+   ]
   },
   {
    "id": "s16",
