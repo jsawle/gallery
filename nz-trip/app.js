@@ -5,7 +5,7 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.3.1";
+const APP_VERSION = "3.3.2";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
@@ -869,7 +869,7 @@ function initSheets() {
       const cur = document.body.dataset.sheet || "peek";
       if (!moved) { setSheet(cur === "peek" ? "half" : "peek"); return; }
       const hs = sheetHeights();
-      if (el.id === "detail" && h < hs.peek * 0.6) { closeDetail(); return; }   // swipe down to close details
+      if (el.id === "detail" && h < hs.peek - 15) { closeDetail(); return; }   // swipe down to close details
       let best = "peek"; for (const k of order) if (Math.abs(hs[k] - h) < Math.abs(hs[best] - h)) best = k;
       setSheet(best);
     };
