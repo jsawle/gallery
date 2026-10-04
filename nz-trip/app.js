@@ -5,7 +5,7 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.2.2";
+const APP_VERSION = "3.2.3";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
@@ -145,9 +145,27 @@ async function initMap() {
   const style = await resolveStyle(baseKey);
   map = new maplibregl.Map({
     container: "map", style, center: [171.2, -43.6], zoom: 5.4, minZoom: 4, maxBounds: [[160, -50], [182, -36]],
-    attributionControl: { compact: true }, cooperativeGestures: false,
+    attributionControl: false, cooperativeGestures: false,
   });
-  map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
+  // Map credits: collapsed to an (i) button when the screen is too narrow for them to sit beside the toolbar
+  const narrow = innerWidth < 1200;
+  const attrib = new maplibregl.AttributionControl({ compact: narrow });
+  map.addControl(attrib, "bottom-right");
+  if (narrow) {
+    let userOpened = false;
+    const fold = () => setTimeout(() => { if (userOpened) return; document.querySelectorAll(".maplibregl-ctrl-attrib").forEach((a) => { a.classList.remove("maplibregl-compact-show"); a.removeAttribute("open"); }); }, 0);
+    map.getContainer().addEventListener("click", (e) => { const a = e.target.closest(".maplibregl-ctrl-attrib"); if (a) setTimeout(() => (userOpened = a.classList.contains("maplibregl-compact-show")), 0); });
+    ["load", "styledata", "sourcedata"].forEach((ev) => map.on(ev, fold));
+  }
+  // Bottom-right controls stack in one column (MapLibre places later ones above earlier ones): zoom, version, attribution
+  map.addControl({
+    onAdd() {
+      const d = document.createElement("div"); d.className = "maplibregl-ctrl ver-ctrl";
+      d.innerHTML = `<button type="button" class="ver-btn" title="About and versions" aria-label="Version ${APP_VERSION}, open About and versions">v${APP_VERSION}</button>`;
+      d.querySelector("button").onclick = about; return d;
+    }, onRemove() {},
+  }, "bottom-right");
+  map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "bottom-right");
   map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-left");
   map.on("style.load", addOverlays);
   map.on("click", onMapClick);
@@ -843,7 +861,6 @@ function wire() {
     dialog(`<h3>Reset to the original plan?</h3><p>This replaces every change saved in this browser.</p><div class="row"><span class="spacer"></span><button class="btn" value="cancel">Cancel</button><button class="btn danger" value="ok">Reset</button></div>`,
       () => { trip = clone(original); sel = null; save(); renderAll(); routeAll(); fitAll(); loadPhotos(); toast("Back to the original plan"); }); };
   $("#btn-about").onclick = () => { closeMenus(); about(); };
-  $("#credit").onclick = about;
   document.querySelectorAll(".ver").forEach((v) => (v.textContent = "v" + APP_VERSION));
   const settings = document.createElement("button"); settings.setAttribute("role", "menuitem"); settings.textContent = "Trip dates and title…";
   settings.className = "edit-only"; settings.onclick = () => { closeMenus(); tripSettings(); };

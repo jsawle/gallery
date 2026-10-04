@@ -182,7 +182,10 @@ body.picking #map canvas{cursor:crosshair}
 .maplibregl-ctrl-attrib{background:var(--glass-bg)!important;backdrop-filter:blur(10px);border-radius:10px 0 0 0;font-size:11px}
 .maplibregl-ctrl-attrib a{color:var(--fg)!important}
 .maplibregl-ctrl-group{background:var(--glass-bg-strong)!important;border-radius:14px!important;overflow:hidden}
-.maplibregl-ctrl-top-right{top:auto!important;bottom:60px;right:4px}
+.maplibregl-ctrl-bottom-right{right:6px;bottom:calc(6px + env(safe-area-inset-bottom,0px))}
+.ver-ctrl{clear:both}
+.ver-btn{font:inherit;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--fg);background:var(--glass-bg-strong);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid var(--glass-edge);border-radius:999px;padding:5px 11px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.ver-btn:hover{border-color:var(--accent)}
 
 /* ---------- Phone ---------- */
 .grab{display:none}
@@ -240,8 +243,7 @@ body.picking #map canvas{cursor:crosshair}
   .menu button,.check{min-height:48px;font-size:16px}
   .toast{top:calc(104px + env(safe-area-inset-top,0px));bottom:auto}
   .banner{left:8px;right:8px;transform:none;top:calc(8px + env(safe-area-inset-top,0px));border-radius:20px;justify-content:space-between;flex-wrap:wrap}
-  .credit{display:none}
-  .maplibregl-ctrl-top-right,.maplibregl-ctrl-bottom-left{display:none}
+  .maplibregl-ctrl-bottom-left,.maplibregl-ctrl-bottom-right .maplibregl-ctrl-group,.ver-ctrl{display:none}
   .maplibregl-ctrl-bottom-right{bottom:auto;top:calc(110px + env(safe-area-inset-top,0px))}
   .maplibregl-ctrl-attrib{border-radius:10px 0 0 10px}
   .dlg{padding:18px 16px;max-height:calc(100dvh - 40px);overflow:auto}
