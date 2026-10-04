@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en-NZ">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>South Island Slow Loop</title>
+<meta name="description" content="A relaxed South Island road trip, 6 December 2026 to 23 January 2027, starting and ending in Christchurch. Editable map with road distances.">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<a class="skip" href="#itinerary">Skip to itinerary</a>
+<div id="map" role="region" aria-label="Map of the trip"></div>
+
+<!-- Summary card -->
+<section class="glass card-summary" aria-labelledby="trip-title">
+  <div class="eyebrow" id="trip-dates">6 Dec 2026 – 23 Jan 2027</div>
+  <h1 id="trip-title">South Island Slow Loop</h1>
+  <div class="stats" aria-live="polite">
+    <div><span class="v" id="st-nights">48</span><span class="l">nights</span></div>
+    <div><span class="v" id="st-km">–</span><span class="l">km by road</span></div>
+    <div><span class="v" id="st-drive">–</span><span class="l">driving</span></div>
+  </div>
+  <div class="chip" id="st-fit" role="status"></div>
+</section>
+
+<!-- Itinerary list -->
+<nav class="glass panel-list" id="itinerary" aria-label="Itinerary">
+  <div class="panel-head">
+    <h2>Itinerary</h2>
+    <button class="icon-btn" id="btn-collapse" aria-expanded="true" aria-controls="stop-list" title="Hide list">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><span class="sr">Hide list</span>
+    </button>
+  </div>
+  <ol id="stop-list" class="stop-list"></ol>
+</nav>
+
+<!-- Detail / editor panel -->
+<aside class="glass panel-detail" id="detail" aria-live="polite" aria-label="Details" hidden></aside>
+
+<!-- Toolbar -->
+<div class="glass toolbar" role="toolbar" aria-label="Map tools">
+  <button class="tb" id="btn-fit" title="Show whole route"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Whole trip</span></button>
+  <button class="tb" id="btn-edit" aria-pressed="false" title="Turn editing on or off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg><span>Edit</span></button>
+  <button class="tb edit-only" id="btn-add-stop" title="Add an overnight stop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Stop</span></button>
+  <button class="tb edit-only" id="btn-add-poi" title="Add a place to visit near the selected stop"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/></svg><span>Place</span></button>
+  <button class="tb" id="btn-layers" aria-haspopup="true" aria-expanded="false" title="Change basemap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/></svg><span>Map</span></button>
+  <button class="tb" id="btn-more" aria-haspopup="true" aria-expanded="false" title="Save, share and more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span>More</span></button>
+</div>
+
+<div class="glass menu" id="menu-layers" hidden role="menu" aria-label="Basemap">
+  <button role="menuitemradio" data-base="liberty" aria-checked="true">Streets</button>
+  <button role="menuitemradio" data-base="positron" aria-checked="false">Light</button>
+  <button role="menuitemradio" data-base="satellite" aria-checked="false">Satellite</button>
+  <hr>
+  <label class="check"><input type="checkbox" id="chk-pois" checked> Show places</label>
+</div>
+<div class="glass menu" id="menu-more" hidden role="menu" aria-label="More">
+  <button role="menuitem" id="btn-share">Copy share link</button>
+  <button role="menuitem" id="btn-export">Download itinerary (JSON)</button>
+  <button role="menuitem" id="btn-import">Load itinerary from file…</button>
+  <button role="menuitem" id="btn-reset">Reset to original plan</button>
+  <hr>
+  <button role="menuitem" id="btn-about">About &amp; versions</button>
+</div>
+<input type="file" id="file-import" accept="application/json,.json" hidden>
+
+<div class="glass banner" id="banner" role="status" hidden></div>
+<div class="glass toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<dialog id="dlg" class="glass dlg"></dialog>
+
+<div class="credit glass">Created by Jason Sawle</div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+<script src="data/nz-coast.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
