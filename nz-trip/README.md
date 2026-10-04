@@ -28,7 +28,7 @@ Live at **https://jsawle.github.io/gallery/nz-trip/**
 ## Versions
 | Part | Version |
 |---|---|
-| App | 3.2.0 |
+| App | 3.2.1 |
 | Itinerary data | 1.1 |
 | Road routing | 1.0 |
 | Date calculator | 1.0 |

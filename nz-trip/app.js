@@ -5,7 +5,7 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.2.0";
+const APP_VERSION = "3.2.1";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
@@ -386,7 +386,7 @@ function renderList() {
     btn.addEventListener("click", () => select({ type: "stop", id: s.id }, true));
     li.appendChild(btn); ol.appendChild(li);
   });
-  const cr = document.createElement("li"); cr.className = "list-credit"; cr.textContent = "Created by Jason Sawle"; ol.appendChild(cr);
+  const cr = document.createElement("li"); cr.className = "list-credit"; cr.innerHTML = `Created by Jason Sawle · <button type="button" class="ver-link">Version ${APP_VERSION}</button>`; cr.querySelector("button").onclick = about; ol.appendChild(cr);
   ol.scrollTop = keepScroll;
 }
 
@@ -752,7 +752,7 @@ function dialog(html, onOk) {
 }
 function about() {
   const rows = VERSIONS.map(([n, v, desc]) => `<tr><td>${esc(n)}</td><td>${esc(v || trip.dataVersion || "1.0")}</td><td>${esc(desc)}</td></tr>`).join("");
-  dialog(`<h3>About this map</h3>
+  dialog(`<h3>About this map · version ${APP_VERSION}</h3>
     <p>A relaxed South Island road trip that starts and ends in Christchurch. Turn on <strong>Edit</strong> to change stops, nights and places. Changes are saved in this browser only. To pass them on, use <em>Copy share link</em> or <em>Download itinerary</em>.</p>
     <table><thead><tr><th>Part</th><th>Version</th><th>What it does</th></tr></thead><tbody>${rows}</tbody></table>
     <p class="hint">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. Map tiles: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles. Satellite: Sentinel-2 cloudless by EOX. Road distances: <a href="https://project-osrm.org" target="_blank" rel="noopener">OSRM</a> on the <a href="https://routing.openstreetmap.de" target="_blank" rel="noopener">FOSSGIS</a> server. Search: <a href="https://nominatim.org" target="_blank" rel="noopener">Nominatim</a>. Photos: <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, credited on each photo. Place links open Google Maps. Drive times are routing estimates without stops.</p>
@@ -844,6 +844,8 @@ function wire() {
     dialog(`<h3>Reset to the original plan?</h3><p>This replaces every change saved in this browser.</p><div class="row"><span class="spacer"></span><button class="btn" value="cancel">Cancel</button><button class="btn danger" value="ok">Reset</button></div>`,
       () => { trip = clone(original); sel = null; save(); renderAll(); routeAll(); fitAll(); loadPhotos(); toast("Back to the original plan"); }); };
   $("#btn-about").onclick = () => { closeMenus(); about(); };
+  $("#credit").onclick = about;
+  document.querySelectorAll(".ver").forEach((v) => (v.textContent = "v" + APP_VERSION));
   const settings = document.createElement("button"); settings.setAttribute("role", "menuitem"); settings.textContent = "Trip dates and title…";
   settings.className = "edit-only"; settings.onclick = () => { closeMenus(); tripSettings(); };
   $("#menu-more").insertBefore(settings, $("#btn-share"));

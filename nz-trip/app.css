@@ -252,3 +252,7 @@ body.picking #map canvas{cursor:crosshair}
   .poi{width:28px;height:28px;font-size:15px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.credit{border:1px solid var(--glass-edge);cursor:pointer;font:inherit;font-size:12px;font-weight:600}
+.credit .ver{font-variant-numeric:tabular-nums;color:var(--fg)}
+.ver-link{border:0;background:none;padding:4px;font:inherit;color:var(--accent);font-weight:600;cursor:pointer;text-decoration:underline}
