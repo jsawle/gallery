@@ -5,7 +5,7 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.2.3";
+const APP_VERSION = "3.2.4";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
@@ -881,6 +881,6 @@ function wire() {
   document.addEventListener("click", (e) => { if (!e.target.closest(".menu, #btn-layers, #btn-more")) closeMenus(); });
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setBase(baseKey));
 }
-wire();
-initSheets();
+// Each start-up step runs on its own, so a problem in one (for example a stale cached file) can't stop the map loading
+for (const step of [wire, initSheets]) { try { step(); } catch (e) { console.error(e); } }
 boot();

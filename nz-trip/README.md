@@ -25,10 +25,13 @@ Live at **https://jsawle.github.io/gallery/nz-trip/**
 - Photos: main image of each place's Wikipedia article, from Wikimedia Commons, credited on each photo
 - Place and directions links open Google Maps
 
+## Releasing
+When changing `app.js` or `app.css`, bump `APP_VERSION` in `app.js` and the `?v=` numbers in `index.html` to match, so browsers load the new files together.
+
 ## Versions
 | Part | Version |
 |---|---|
-| App | 3.2.3 |
+| App | 3.2.4 |
 | Itinerary data | 1.1 |
 | Road routing | 1.0 |
 | Date calculator | 1.0 |
