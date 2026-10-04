@@ -5,12 +5,13 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.0.0";
+const APP_VERSION = "3.1.0";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
   ["Road routing", "1.0", "OSRM car profile per leg; geometry thinned to ~60 m; cached per pair of points"],
   ["Date calculator", "1.0", "Arrival = start date + nights at earlier stops (UTC, no time zones)"],
+  ["Photos", "1.0", "Main photo of each place's Wikipedia article, from Wikimedia Commons with credit and licence; maps, flags and logos skipped; non-free images skipped"],
 ];
 const STORE_KEY = "nztrip:trip:v1";
 const CACHE_KEY = "nztrip:legs:v1";
@@ -111,12 +112,17 @@ async function boot() {
   if (shared && valid(shared)) { trip = shared; showSharedBanner(); }
   else if (stored) { try { trip = JSON.parse(stored); } catch {} }
   if (!trip || !valid(trip)) trip = clone(original);
+  else if (original) {            // older saved copies have no photo links: borrow them from the original by id
+    const byId = {}; original.stops.forEach((s) => { byId[s.id] = s; (s.pois || []).forEach((p) => (byId[p.id] = p)); });
+    trip.stops.forEach((s) => { [s, ...(s.pois || [])].forEach((o) => { if (!o.wiki && !o.img && byId[o.id] && byId[o.id].wiki && byId[o.id].name === o.name) o.wiki = byId[o.id].wiki; }); });
+  }
   if (!trip) { toast("Couldn't load the itinerary. Check your connection and reload."); return; }
 
   await initMap();
   renderAll();
   fitAll(false);
   routeAll();
+  loadPhotos();
 }
 function valid(t) { return t && Array.isArray(t.stops) && t.stops.length >= 2 && t.start && t.stops.every((s) => isFinite(s.lat) && isFinite(s.lng)); }
 
@@ -173,6 +179,94 @@ function fitAll(animate = true) {
 }
 function flyTo(lng, lat, zoom) {
   map.easeTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), zoom || 8), padding: padding(), duration: reduceMotion ? 0 : 700 });
+}
+
+/* ---------------- photos (Wikipedia / Wikimedia Commons) ---------------- */
+const IMG_KEY = "nztrip:img:v1";
+let imgCache = {};
+try { imgCache = JSON.parse(lsGet(IMG_KEY) || "{}"); } catch { imgCache = {}; }
+const BAD_IMG = /\.svg$|(^|[ _\-(:])(map|maps|locator|location|flag|logo|emblem|seal[ _]of|coat[ _]of[ _]arms|montage)([ _\-).]|$)/i;
+function photoKey(o) { if (o.img) return o.img; return o.wiki ? "w:" + o.wiki : null; }
+function photo(o) { const k = photoKey(o); const v = k && imgCache[k]; return v && !v.none ? v : null; }
+function textOf(html) { const d = new DOMParser().parseFromString(String(html || ""), "text/html"); return (d.body.textContent || "").replace(/\s+/g, " ").trim(); }
+const nk = (s) => String(s).replace(/_/g, " ");
+function chunks(a, n) { const o = []; for (let i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; }
+let photoBusy = false;
+async function loadPhotos() {
+  if (photoBusy) return; photoBusy = true;
+  try {
+    const items = []; trip.stops.forEach((s) => { items.push(s); (s.pois || []).forEach((p) => items.push(p)); });
+    const now = Date.now(), TTL = 30 * 864e5;
+    const need = [...new Set(items.map(photoKey).filter((k) => k && (!imgCache[k] || now - imgCache[k].t > TTL)))];
+    if (!need.length) return;
+    const fileFor = {}; const resolved = new Set();
+    need.filter((k) => /^https:\/\//.test(k)).forEach((k) => { imgCache[k] = { src: k, page: k, credit: "", license: "", t: now }; });
+    need.filter((k) => /^File:/i.test(k)).forEach((k) => { fileFor[k] = k; resolved.add(k); });
+    // 1. Wikipedia article -> its main image file
+    for (const chunk of chunks(need.filter((k) => k.startsWith("w:")).map((k) => k.slice(2)), 40)) {
+      try {
+        const u = "https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&redirects=1&prop=pageimages&piprop=name&titles=" + encodeURIComponent(chunk.join("|"));
+        const q = (await (await fetchT(u, 12000)).json()).query || {};
+        const fwd = {}; chunk.forEach((x) => (fwd[x] = x));
+        (q.normalized || []).forEach((n) => { for (const k in fwd) if (fwd[k] === n.from) fwd[k] = n.to; });
+        (q.redirects || []).forEach((n) => { for (const k in fwd) if (fwd[k] === n.from) fwd[k] = n.to; });
+        const pages = {}; Object.values(q.pages || {}).forEach((pg) => (pages[pg.title] = pg));
+        chunk.forEach((orig) => { const pg = pages[fwd[orig]]; fileFor["w:" + orig] = pg && pg.pageimage ? "File:" + pg.pageimage : null; resolved.add("w:" + orig); });
+      } catch {}
+    }
+    // 2. Commons: image URL, author and licence (non-free local files are not on Commons, so they drop out)
+    const files = [...new Set(Object.values(fileFor).filter((f) => f && !BAD_IMG.test(f)))];
+    const info = {}; const infoOk = new Set();
+    for (const chunk of chunks(files, 40)) {
+      try {
+        const u = "https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900&iiextmetadatafilter=Artist|LicenseShortName&titles=" + encodeURIComponent(chunk.join("|"));
+        const q = (await (await fetchT(u, 12000)).json()).query || {};
+        const back = {}; (q.normalized || []).forEach((n) => (back[n.to] = n.from));
+        Object.values(q.pages || {}).forEach((pg) => {
+          const ii = pg.imageinfo && pg.imageinfo[0]; const md = (ii && ii.extmetadata) || {};
+          const v = ii ? { src: ii.thumburl || ii.url, page: ii.descriptionurl, credit: textOf(md.Artist && md.Artist.value).slice(0, 80), license: textOf(md.LicenseShortName && md.LicenseShortName.value) } : null;
+          [pg.title, back[pg.title]].forEach((tt) => { if (tt) { info[nk(tt)] = v; infoOk.add(nk(tt)); } });
+        });
+      } catch {}
+    }
+    for (const k of need) {
+      if (/^https:/.test(k) || !resolved.has(k)) continue;           // unresolved = network failure: try again next load
+      const f = fileFor[k];
+      if (!f || BAD_IMG.test(f)) { imgCache[k] = { none: true, t: now }; continue; }
+      if (!infoOk.has(nk(f))) continue;
+      imgCache[k] = info[nk(f)] ? { ...info[f], t: now } : { none: true, t: now };
+    }
+    lsSet(IMG_KEY, JSON.stringify(imgCache));
+    renderList(); if (detailMode === "view") renderDetail();
+  } finally { photoBusy = false; }
+}
+function heroHtml(o, name) {
+  const ph = photo(o); if (!ph) return "";
+  const credit = [ph.credit, ph.license].filter(Boolean).join(" · ");
+  return `<figure class="hero"><img src="${esc(ph.src)}" alt="Photo of ${esc(name)}" loading="lazy" decoding="async" onerror="this.parentNode.remove()">
+    <figcaption><a href="${esc(ph.page)}" target="_blank" rel="noopener">${credit ? "Photo: " + esc(credit) : "Photo source"}</a>${ph.page && ph.page.includes("wikimedia") ? " · Wikimedia Commons" : ""}</figcaption></figure>`;
+}
+function thumbHtml(o, cls = "thumb") { const ph = photo(o); return ph ? `<img class="${cls}" src="${esc(ph.src)}" alt="" loading="lazy" decoding="async" onerror="this.style.visibility='hidden'">` : ""; }
+function setPhotoFrom(o, val) {
+  val = val.trim();
+  delete o.img;
+  if (!val) { delete o.wiki; return; }
+  if (/^https:\/\//.test(val) && !/wikipedia\.org\/wiki\//.test(val)) o.img = val;
+  else if (/^File:/i.test(val)) o.img = val;
+  else o.wiki = decodeURIComponent(val.replace(/^https:\/\/en\.(m\.)?wikipedia\.org\/wiki\//, "")).replace(/_/g, " ");
+}
+function photoField(o, id) {
+  return `<label>Photo: Wikipedia article, Commons file or image link<input id="${id}" value="${esc(o.img || o.wiki || "")}" placeholder="e.g. Lake Tekapo"></label>`;
+}
+
+/* ---------------- Google Maps links ---------------- */
+function gmapsPlace(o) {
+  const generic = /^(new (stop|place)|untitled)/i.test(o.name || "");
+  const q = generic ? `${o.lat},${o.lng}` : `${o.name.replace(/ · /g, ", ").replace(/ & /g, " ")}, New Zealand`;
+  return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+}
+function gmapsDir(a, b) {
+  return `https://www.google.com/maps/dir/?api=1&origin=${a.lat},${a.lng}&destination=${b.lat},${b.lng}&travelmode=driving`;
 }
 
 /* ---------------- routing ---------------- */
@@ -283,8 +377,8 @@ function renderList() {
     const dates = s.nights ? fmtRange(a, d) : fmtD(a);
     btn.setAttribute("aria-label", `${isAirport(s) ? "" : "Stop " + labelFor(i) + ", "}${s.name}, ${dates}${s.nights ? ", " + s.nights + " nights" : ""}${i > 0 && legs[i] ? ", " + legText(i) + " by road from previous stop" : ""}`);
     btn.innerHTML = `<span class="num${isAirport(s) ? " air" : ""}" aria-hidden="true">${labelFor(i)}</span>
-      <span><div class="t">${esc(s.name)}</div><div class="d">${dates}</div></span>
-      <span class="n">${s.nights ? s.nights + " n" : ""}</span>`;
+      <span><div class="t">${esc(s.name)}</div><div class="d">${dates}${s.nights ? " · " + s.nights + " night" + (s.nights > 1 ? "s" : "") : ""}</div></span>
+      <span class="n">${thumbHtml(s, "lthumb")}</span>`;
     btn.addEventListener("click", () => select({ type: "stop", id: s.id }, true));
     li.appendChild(btn); ol.appendChild(li);
   });
@@ -370,15 +464,16 @@ function stopView(box, i) {
   const s = trip.stops[i]; const a = arrival(i), d = arrival(i + 1);
   const leg = i > 0 && legs[i];
   const pois = s.pois || [];
-  box.innerHTML = `${closeBtn}
+  box.innerHTML = `${closeBtn}${heroHtml(s, s.name)}
     <h3 tabindex="-1">${isAirport(s) ? "" : labelFor(i) + ". "}${esc(s.name)}</h3>
     <div class="meta">${s.nights ? fmtRange(a, d) + " · " + s.nights + " night" + (s.nights > 1 ? "s" : "") : fmtD(a)}${s.region ? " · " + esc(s.region) : ""}</div>
     ${leg ? `<p class="meta">From ${esc(trip.stops[i - 1].name)}: <strong>${Math.round(leg.km)} km</strong>, about ${dur(leg.min)} by road${leg.approx ? " (approximate, road route not loaded yet)" : ""}</p>` : ""}
+    <p class="links"><a href="${gmapsPlace(s)}" target="_blank" rel="noopener">Open in Google Maps</a>${i > 0 ? ` · <a href="${gmapsDir(trip.stops[i - 1], s)}" target="_blank" rel="noopener">Directions from ${esc(trip.stops[i - 1].name)}</a>` : ""}</p>
     ${s.highlights?.length ? `<ul>${s.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}
     ${s.tip ? `<div class="tip"><b>Tip</b> ${esc(s.tip)}</div>` : ""}
     ${pois.length ? `<div class="section-t">Places nearby</div><ul class="poi-list">${pois.map((p) => {
       const t = POI_TYPES[p.type] || POI_TYPES.other;
-      return `<li><button class="poi-btn" data-poi="${p.id}"><span aria-hidden="true">${t[0]}</span><span><div class="pn">${esc(p.name)}</div>${p.notes ? `<div class="pd">${esc(p.notes)}</div>` : ""}</span></button></li>`; }).join("")}</ul>` : ""}
+      return `<li><button class="poi-btn" data-poi="${p.id}">${thumbHtml(p) || `<span class="thumb ph" aria-hidden="true">${t[0]}</span>`}<span><div class="pn">${esc(p.name)}</div>${p.notes ? `<div class="pd">${esc(p.notes)}</div>` : ""}</span></button></li>`; }).join("")}</ul>` : ""}
     <div class="row">
       <button class="btn" data-act="prev" ${i === 0 ? "disabled" : ""}>← Previous</button>
       <button class="btn" data-act="next" ${i === trip.stops.length - 1 ? "disabled" : ""}>Next →</button>
@@ -401,6 +496,7 @@ function stopEditor(box, i) {
       <datalist id="regions">${regions.map((r) => `<option value="${esc(r)}">`).join("")}</datalist>
       <label>Things to do (one per line)<textarea id="f-hi">${esc((s.highlights || []).join("\n"))}</textarea></label>
       <label>Tip<textarea id="f-tip" style="min-height:60px">${esc(s.tip || "")}</textarea></label>
+      ${photoField(s, "f-photo")}
       <p class="hint">To move this stop, drag its pin on the map. Arrives ${fmtD(arrival(i))}.</p>
     </form>
     <div class="row">
@@ -420,17 +516,18 @@ function stopEditor(box, i) {
     save(); renderSummary(); renderList();
     const el = stopMarkers.get(s.id)?.getElement(); if (el) { el.title = s.name; el.setAttribute("aria-label", s.name); }
   };
-  box.querySelectorAll("#f-stop input, #f-stop textarea").forEach((el) => el.addEventListener("input", upd));
+  box.querySelectorAll("#f-stop input:not(#f-photo), #f-stop textarea").forEach((el) => el.addEventListener("input", upd));
+  $("#f-photo").addEventListener("change", (e) => { setPhotoFrom(s, e.target.value); save(); loadPhotos(); toast("Photo updated"); });
   $("#f-stop").addEventListener("submit", (e) => { e.preventDefault(); detailMode = "view"; renderDetail(); });
   wireDetail(box, i);
 }
 function poiView(box, s, p) {
   const t = POI_TYPES[p.type] || POI_TYPES.other;
-  box.innerHTML = `${closeBtn}
+  box.innerHTML = `${closeBtn}${heroHtml(p, p.name)}
     <h3 tabindex="-1">${esc(p.name)}</h3>
     <div class="meta">${t[0]} ${t[1]} · near ${esc(s.name)}</div>
     ${p.notes ? `<p>${esc(p.notes)}</p>` : ""}
-    <p class="meta"><a href="https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lng}#map=14/${p.lat}/${p.lng}" target="_blank" rel="noopener">Open in OpenStreetMap</a></p>
+    <p class="links"><a href="${gmapsPlace(p)}" target="_blank" rel="noopener">Open in Google Maps</a> · <a href="${gmapsDir(s, p)}" target="_blank" rel="noopener">Directions from ${esc(s.name)}</a></p>
     <div class="row">
       <button class="btn" data-act="back">← ${esc(s.name)}</button>
       <span class="spacer"></span>
@@ -446,6 +543,7 @@ function poiEditor(box, s, p) {
       <label>Type<select id="p-type">${Object.entries(POI_TYPES).map(([k, v]) => `<option value="${k}" ${k === p.type ? "selected" : ""}>${v[0]} ${v[1]}</option>`).join("")}</select></label>
       <label>Belongs to stop<select id="p-stop">${trip.stops.map((x, j) => `<option value="${x.id}" ${x.id === s.id ? "selected" : ""}>${isAirport(x) ? "✈" : labelFor(j) + "."} ${esc(x.name)}</option>`).join("")}</select></label>
       <label>Notes<textarea id="p-notes">${esc(p.notes || "")}</textarea></label>
+      ${photoField(p, "p-photo")}
       <p class="hint">To move this place, drag its icon on the map.</p>
     </form>
     <div class="row">
@@ -465,7 +563,8 @@ function poiEditor(box, s, p) {
     }
     save(); renderMarkers(); renderList();
   };
-  box.querySelectorAll("#f-poi input, #f-poi textarea, #f-poi select").forEach((el) => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", upd));
+  $("#p-photo").addEventListener("change", (e) => { setPhotoFrom(p, e.target.value); save(); loadPhotos(); toast("Photo updated"); });
+  box.querySelectorAll("#f-poi input:not(#p-photo), #f-poi textarea, #f-poi select").forEach((el) => el.addEventListener(el.tagName === "SELECT" ? "change" : "input", upd));
   $("#f-poi").addEventListener("submit", (e) => { e.preventDefault(); detailMode = "view"; renderDetail(); });
   wireDetail(box, stopIndex(s.id), p);
 }
@@ -540,7 +639,7 @@ function startPick(kind) {
     e.preventDefault(); const q = $("#q").value.trim(); if (q.length < 2) return;
     const res = $("#results"); res.innerHTML = `<li class="hint">Searching…</li>`;
     try {
-      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=nz&limit=6&accept-language=en&q=${encodeURIComponent(q)}`;
+      const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&extratags=1&countrycodes=nz&limit=6&accept-language=en&q=${encodeURIComponent(q)}`;
       const r = await fetchT(url, 9000, { headers: { Accept: "application/json" } });
       const j = await r.json();
       if (!j.length) { res.innerHTML = `<li class="hint">No matches in New Zealand. Try another spelling, or click the map.</li>`; return; }
@@ -548,7 +647,8 @@ function startPick(kind) {
       j.forEach((x) => {
         const li = document.createElement("li"); const b = document.createElement("button"); b.type = "button";
         b.textContent = x.display_name; li.appendChild(b); res.appendChild(li);
-        b.onclick = () => place(+x.lon, +x.lat, x.name || x.display_name.split(",")[0]);
+        const wp = x.extratags && x.extratags.wikipedia; const wiki = wp && /^en:/.test(wp) ? wp.slice(3) : null;
+        b.onclick = () => place(+x.lon, +x.lat, x.name || x.display_name.split(",")[0], wiki);
       });
     } catch { res.innerHTML = `<li class="hint">Search isn't reachable right now. Click the map instead.</li>`; }
   });
@@ -562,22 +662,22 @@ function onMapClick(e) {
   if (!pick) return;
   place(+e.lngLat.lng.toFixed(5), +e.lngLat.lat.toFixed(5), null);
 }
-function place(lng, lat, name) {
+function place(lng, lat, name, wiki) {
   const p = pick; pick = null; document.body.classList.remove("picking"); hideBanner();
   if (p.kind === "stop") {
     const prev = trip.stops[p.after];
-    const s = { id: uid("s"), name: name || "New stop", region: prev.region || "", lat, lng, nights: 2, highlights: [], tip: "", pois: [] };
+    const s = { id: uid("s"), ...(wiki ? { wiki } : {}), name: name || "New stop", region: prev.region || "", lat, lng, nights: 2, highlights: [], tip: "", pois: [] };
     trip.stops.splice(p.after + 1, 0, s);
     sel = { type: "stop", id: s.id };
     toast(`Added ${s.name}. Set its nights to keep the dates right.`);
     routeAll();
   } else {
     const s = stopById(p.stopId); s.pois = s.pois || [];
-    const poi = { id: uid("p"), name: name || "New place", type: "sight", lat, lng, notes: "" };
+    const poi = { id: uid("p"), ...(wiki ? { wiki } : {}), name: name || "New place", type: "sight", lat, lng, notes: "" };
     s.pois.push(poi); sel = { type: "poi", stopId: s.id, id: poi.id };
     toast(`Added ${poi.name}`);
   }
-  detailMode = "edit"; save(); renderMarkers(); renderList(); renderSummary(); renderDetail();
+  detailMode = "edit"; save(); renderMarkers(); renderList(); renderSummary(); renderDetail(); loadPhotos();
   $("#detail input")?.focus();
 }
 
@@ -632,7 +732,7 @@ function importJSON(file) {
   const r = new FileReader();
   r.onload = () => {
     try { const t = JSON.parse(r.result); if (!valid(t)) throw 0;
-      trip = t; sel = null; save(); renderAll(); routeAll(); fitAll(); toast("Itinerary loaded");
+      trip = t; sel = null; save(); renderAll(); routeAll(); fitAll(); loadPhotos(); toast("Itinerary loaded");
     } catch { toast("That file isn't an itinerary from this app."); }
   };
   r.readAsText(file);
@@ -647,7 +747,7 @@ function about() {
   dialog(`<h3>About this map</h3>
     <p>A relaxed South Island road trip that starts and ends in Christchurch. Turn on <strong>Edit</strong> to change stops, nights and places. Changes are saved in this browser only. To pass them on, use <em>Copy share link</em> or <em>Download itinerary</em>.</p>
     <table><thead><tr><th>Part</th><th>Version</th><th>What it does</th></tr></thead><tbody>${rows}</tbody></table>
-    <p class="hint">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. Map tiles: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles. Satellite: Sentinel-2 cloudless by EOX. Road distances: <a href="https://project-osrm.org" target="_blank" rel="noopener">OSRM</a> on the <a href="https://routing.openstreetmap.de" target="_blank" rel="noopener">FOSSGIS</a> server. Search: <a href="https://nominatim.org" target="_blank" rel="noopener">Nominatim</a>. Drive times are routing estimates without stops.</p>
+    <p class="hint">Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. Map tiles: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> / OpenMapTiles. Satellite: Sentinel-2 cloudless by EOX. Road distances: <a href="https://project-osrm.org" target="_blank" rel="noopener">OSRM</a> on the <a href="https://routing.openstreetmap.de" target="_blank" rel="noopener">FOSSGIS</a> server. Search: <a href="https://nominatim.org" target="_blank" rel="noopener">Nominatim</a>. Photos: <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, credited on each photo. Place links open Google Maps. Drive times are routing estimates without stops.</p>
     <p class="hint">Created by Jason Sawle.</p>
     <div class="row"><span class="spacer"></span><button class="btn primary" value="ok">Close</button></div>`);
 }
@@ -681,7 +781,7 @@ function wire() {
   $("#file-import").onchange = (e) => { if (e.target.files[0]) importJSON(e.target.files[0]); e.target.value = ""; };
   $("#btn-reset").onclick = () => { closeMenus(); if (!original) return;
     dialog(`<h3>Reset to the original plan?</h3><p>This replaces every change saved in this browser.</p><div class="row"><span class="spacer"></span><button class="btn" value="cancel">Cancel</button><button class="btn danger" value="ok">Reset</button></div>`,
-      () => { trip = clone(original); sel = null; save(); renderAll(); routeAll(); fitAll(); toast("Back to the original plan"); }); };
+      () => { trip = clone(original); sel = null; save(); renderAll(); routeAll(); fitAll(); loadPhotos(); toast("Back to the original plan"); }); };
   $("#btn-about").onclick = () => { closeMenus(); about(); };
   const settings = document.createElement("button"); settings.setAttribute("role", "menuitem"); settings.textContent = "Trip dates and title…";
   settings.className = "edit-only"; settings.onclick = () => { closeMenus(); tripSettings(); };

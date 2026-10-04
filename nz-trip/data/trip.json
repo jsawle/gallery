@@ -1,149 +1,751 @@
 {
-  "schema": 1,
-  "dataVersion": "1.0",
-  "title": "South Island Slow Loop",
-  "start": "2026-12-06",
-  "end": "2027-01-23",
-  "stops": [
-    {"id":"s0","name":"Christchurch Airport","region":"Canterbury","lat":-43.489,"lng":172.532,"nights":0,"kind":"airport",
-     "highlights":["Land and pick up the hire car","Get a local SIM or eSIM in the arrivals hall"],
-     "tip":"The trip starts and ends here.","pois":[]},
-    {"id":"s1","name":"Christchurch","region":"Canterbury","lat":-43.532,"lng":172.637,"nights":2,
-     "baked":{"km":11.4,"min":22},
-     "highlights":["Botanic Gardens and a punt on the Avon","Riccarton Bush farmers' market on Saturday morning","Gondola up the Port Hills for views over Lyttelton Harbour"],
-     "tip":"Two easy days to get over jet lag before any driving.",
-     "pois":[
-       {"id":"p1","name":"Christchurch Botanic Gardens","type":"sight","lat":-43.531,"lng":172.620,"notes":"Free. Punting on the Avon leaves from the Antigua Boat Sheds nearby."},
-       {"id":"p2","name":"Riccarton Bush Farmers' Market","type":"food","lat":-43.528,"lng":172.597,"notes":"Saturday mornings."},
-       {"id":"p3","name":"Christchurch Gondola","type":"view","lat":-43.585,"lng":172.718,"notes":"Views over the city, the plains and Lyttelton Harbour."}
-     ]},
-    {"id":"s2","name":"Kaikōura","region":"Top of the South","lat":-42.40,"lng":173.68,"nights":3,
-     "baked":{"km":179.8,"min":156},
-     "highlights":["Whale watching by boat; sperm whales live here year-round","Peninsula walkway past the seal colony","Crayfish from a roadside caravan"],
-     "tip":"Tours cancel in rough seas. Three nights gives a spare day to rebook.",
-     "pois":[
-       {"id":"p4","name":"Point Kean seal colony","type":"wildlife","lat":-42.425,"lng":173.712,"notes":"Start of the Kaikōura Peninsula Walkway. Keep 20 m from the seals."},
-       {"id":"p5","name":"Ohau Point","type":"wildlife","lat":-42.249,"lng":173.830,"notes":"Roadside seal lookout north of town."}
-     ]},
-    {"id":"s3","name":"Marlborough Sounds · Havelock","region":"Top of the South","lat":-41.28,"lng":173.77,"nights":4,
-     "baked":{"km":170.3,"min":142},
-     "highlights":["Short sections of the Queen Charlotte Track, with a boat to drop you off","Green-lipped mussel cruise from Havelock","Cycle between Blenheim cellar doors"],
-     "tip":"Stay somewhere on the water and keep some days empty.",
-     "pois":[
-       {"id":"p6","name":"Pelorus Bridge","type":"swim","lat":-41.300,"lng":173.574,"notes":"River swimming hole and short bush walks."},
-       {"id":"p7","name":"Wairau Valley wineries","type":"food","lat":-41.500,"lng":173.850,"notes":"Hire bikes in Renwick and ride between cellar doors."}
-     ]},
-    {"id":"s4","name":"Abel Tasman · Kaiteriteri","region":"Top of the South","lat":-41.04,"lng":173.02,"nights":5,
-     "baked":{"km":133.5,"min":132},
-     "highlights":["Water taxi to a golden beach, walk an hour, get picked up","Half-day guided kayak with fur seals","Nelson's Saturday market and Māpua wharf"],
-     "tip":"One of the sunniest corners of NZ, and a good place for beach days.",
-     "pois":[
-       {"id":"p8","name":"Split Apple Rock","type":"sight","lat":-41.042,"lng":173.035,"notes":"Short walk from Tokongawa Drive, or by kayak."},
-       {"id":"p9","name":"Anchorage Bay","type":"walk","lat":-40.958,"lng":173.059,"notes":"Popular water-taxi drop-off; walk back to Marahau (12 km) or just swim."},
-       {"id":"p10","name":"Māpua Wharf","type":"food","lat":-41.256,"lng":173.097,"notes":"Fish and chips and small galleries."},
-       {"id":"p11","name":"Nelson Saturday Market","type":"food","lat":-41.272,"lng":173.284,"notes":"Montgomery Square, Saturday mornings."}
-     ]},
-    {"id":"s5","name":"Golden Bay · Tākaka","region":"Top of the South","lat":-40.86,"lng":172.81,"nights":6,
-     "baked":{"km":53.5,"min":46},
-     "highlights":["Te Waikoropupū Springs, some of the clearest water in the world","Wharariki Beach and its arches at low tide","Farewell Spit guided tour"],
-     "tip":"A quiet place for Christmas. Shops close on 25 December, so stock up beforehand.",
-     "pois":[
-       {"id":"p12","name":"Te Waikoropupū Springs","type":"sight","lat":-40.848,"lng":172.771,"notes":"Sacred site: look, don't touch the water."},
-       {"id":"p13","name":"Wharariki Beach","type":"walk","lat":-40.502,"lng":172.682,"notes":"20-minute walk over dunes. Go at low tide for the caves and arches."},
-       {"id":"p14","name":"Labyrinth Rocks","type":"walk","lat":-40.840,"lng":172.820,"notes":"Easy maze of limestone outcrops; fun with kids."}
-     ]},
-    {"id":"s6","name":"Punakaiki","region":"West Coast","lat":-42.11,"lng":171.33,"nights":2,
-     "baked":{"km":321.1,"min":256},
-     "highlights":["Pancake Rocks and blowholes, best at high tide","Pororari River track through nīkau palms","Wild beach sunsets"],
-     "tip":"The longest drive of the trip. Break it in Murchison or at the Buller Gorge swing bridge.",
-     "pois":[
-       {"id":"p15","name":"Pancake Rocks","type":"sight","lat":-42.113,"lng":171.326,"notes":"20-minute loop walk. Blowholes work best at high tide with a swell."},
-       {"id":"p16","name":"Pororari River Track","type":"walk","lat":-42.103,"lng":171.338,"notes":"Flat walk up a limestone gorge."}
-     ]},
-    {"id":"s7","name":"Franz Josef","region":"West Coast","lat":-43.39,"lng":170.18,"nights":3,
-     "baked":{"km":217.4,"min":179},
-     "highlights":["Glacier valley walk, or a heli-hike if the weather allows","Lake Matheson at dawn for the mirror view of Aoraki","Okārito lagoon kayak among herons"],
-     "tip":"Sandflies are fierce on the West Coast, so bring repellent.",
-     "pois":[
-       {"id":"p17","name":"Hokitika Gorge","type":"sight","lat":-42.954,"lng":171.006,"notes":"On the way down: turquoise river and swing bridge. About 40 min detour."},
-       {"id":"p18","name":"Franz Josef Glacier valley walk","type":"walk","lat":-43.430,"lng":170.180,"notes":"About 1.5 h return to the viewpoint."},
-       {"id":"p19","name":"Lake Matheson","type":"view","lat":-43.443,"lng":169.966,"notes":"Go early on a still morning for the reflection."},
-       {"id":"p20","name":"Okārito","type":"wildlife","lat":-43.220,"lng":170.160,"notes":"Kayak the lagoon; kōtuku (white heron) country."}
-     ]},
-    {"id":"s8","name":"Wānaka","region":"Lakes & Fiordland","lat":-44.70,"lng":169.13,"nights":5,
-     "baked":{"km":285.4,"min":231},
-     "highlights":["Blue Pools and waterfalls on the Haast Pass","Lake swims and the flat lakefront path to \"That Wanaka Tree\"","Rob Roy Glacier track in Mt Aspiring National Park"],
-     "tip":"New Year by the lake. Five nights here, easy to fill with short walks and lake days.",
-     "pois":[
-       {"id":"p21","name":"Blue Pools","type":"swim","lat":-44.159,"lng":169.276,"notes":"On the Haast Pass drive in. 30-minute return walk."},
-       {"id":"p22","name":"That Wanaka Tree","type":"view","lat":-44.696,"lng":169.132,"notes":"Short walk along the lakefront."},
-       {"id":"p23","name":"Rob Roy Glacier Track","type":"walk","lat":-44.500,"lng":168.740,"notes":"From Raspberry Creek car park, 3-4 h return. Gravel road with fords."},
-       {"id":"p24","name":"Puzzling World","type":"activity","lat":-44.701,"lng":169.160,"notes":"Good on a rainy day."}
-     ]},
-    {"id":"s9","name":"Arrowtown & Queenstown","region":"Lakes & Fiordland","lat":-44.94,"lng":168.83,"nights":4,
-     "baked":{"km":55.0,"min":63},
-     "highlights":["Gold-rush Arrowtown and the Chinese settlement","Lake Hayes loop walk or the Arrow River cycle trails","Gondola in Queenstown, then a drive to Glenorchy"],
-     "tip":"Base in Arrowtown, which is calmer, and go into Queenstown for the day.",
-     "pois":[
-       {"id":"p25","name":"Arrowtown Chinese Settlement","type":"sight","lat":-44.936,"lng":168.830,"notes":"Restored huts of gold-rush era Chinese miners."},
-       {"id":"p26","name":"Lake Hayes loop","type":"walk","lat":-44.980,"lng":168.810,"notes":"8 km flat loop, good café at the end."},
-       {"id":"p27","name":"Skyline Gondola","type":"view","lat":-45.030,"lng":168.650,"notes":"Queenstown; luge at the top."},
-       {"id":"p28","name":"Glenorchy","type":"view","lat":-44.850,"lng":168.390,"notes":"45-minute lakeside drive from Queenstown."}
-     ]},
-    {"id":"s10","name":"Te Anau","region":"Lakes & Fiordland","lat":-45.414,"lng":167.718,"nights":4,
-     "baked":{"km":179.1,"min":143},
-     "highlights":["Milford Sound cruise, with Mirror Lakes on the drive in","Te Anau glowworm caves by boat","Lake Manapōuri, or an overnight cruise on Doubtful Sound"],
-     "tip":"Keep Milford flexible and pick the best-weather day. A visitor charge for international visitors is planned there.",
-     "pois":[
-       {"id":"p29","name":"Milford Sound","type":"sight","lat":-44.671,"lng":167.926,"notes":"About 2 h each way from Te Anau. Book the cruise."},
-       {"id":"p30","name":"Mirror Lakes","type":"view","lat":-44.960,"lng":168.010,"notes":"Short boardwalk on the Milford Road."},
-       {"id":"p31","name":"Lake Manapōuri","type":"activity","lat":-45.560,"lng":167.610,"notes":"Departure point for Doubtful Sound cruises."}
-     ]},
-    {"id":"s11","name":"The Catlins","region":"Southern","lat":-46.55,"lng":169.40,"nights":2,
-     "baked":{"km":268.4,"min":222},
-     "highlights":["Nugget Point lighthouse and seals","Curio Bay petrified forest; yellow-eyed penguins come ashore at dusk","Purakaunui and McLean waterfalls"],
-     "tip":"Few shops or fuel stops, so fill up in Gore or Invercargill.",
-     "pois":[
-       {"id":"p32","name":"Curio Bay","type":"wildlife","lat":-46.661,"lng":169.100,"notes":"Petrified forest at low tide; penguins at dusk. Keep well back."},
-       {"id":"p33","name":"McLean Falls","type":"walk","lat":-46.600,"lng":169.370,"notes":"40-minute return walk."},
-       {"id":"p34","name":"Purakaunui Falls","type":"walk","lat":-46.545,"lng":169.564,"notes":"20-minute return walk."},
-       {"id":"p35","name":"Nugget Point","type":"view","lat":-46.448,"lng":169.817,"notes":"Lighthouse walk; seals on the rocks below."}
-     ]},
-    {"id":"s12","name":"Dunedin · Otago Peninsula","region":"Southern","lat":-45.874,"lng":170.503,"nights":3,
-     "baked":{"km":142.3,"min":136},
-     "highlights":["Royal albatross colony at Taiaroa Head","Penguin and sea lion tours on the peninsula","St Clair beach and the Saturday farmers' market"],
-     "tip":"Good cafés and an easy city to slow down in.",
-     "pois":[
-       {"id":"p36","name":"Royal Albatross Centre","type":"wildlife","lat":-45.774,"lng":170.728,"notes":"The only mainland royal albatross colony in the world."},
-       {"id":"p37","name":"St Clair Beach","type":"swim","lat":-45.912,"lng":170.487,"notes":"Hot salt-water pool on the esplanade."},
-       {"id":"p38","name":"Otago Farmers Market","type":"food","lat":-45.875,"lng":170.508,"notes":"Railway station, Saturday mornings."}
-     ]},
-    {"id":"s13","name":"Aoraki / Mt Cook","region":"Mackenzie","lat":-43.735,"lng":170.096,"nights":2,
-     "baked":{"km":320.1,"min":258},
-     "highlights":["Hooker Valley Track to an iceberg lake (flat, about 3 h return)","Tasman Glacier viewpoint, a short climb","Stargazing from the village"],
-     "tip":"Break the drive at Moeraki and Ōamaru. A visitor charge for international visitors is planned for this park.",
-     "pois":[
-       {"id":"p39","name":"Moeraki Boulders","type":"sight","lat":-45.345,"lng":170.827,"notes":"On the way from Dunedin. Best at low tide."},
-       {"id":"p40","name":"Hooker Valley Track","type":"walk","lat":-43.719,"lng":170.093,"notes":"From White Horse Hill car park. Three swing bridges."},
-       {"id":"p41","name":"Tasman Glacier viewpoint","type":"view","lat":-43.684,"lng":170.164,"notes":"20-minute climb; boat trips on the lake in summer."}
-     ]},
-    {"id":"s14","name":"Lake Tekapo","region":"Mackenzie","lat":-44.004,"lng":170.477,"nights":2,
-     "baked":{"km":104.8,"min":83},
-     "highlights":["Church of the Good Shepherd on the turquoise lake","Tekapo Springs hot pools","Night sky tour in the Dark Sky Reserve"],
-     "tip":"The hot pools are a good way to rest after the walking.",
-     "pois":[
-       {"id":"p42","name":"Church of the Good Shepherd","type":"sight","lat":-44.005,"lng":170.485,"notes":"Busy at sunset; early morning is quieter."},
-       {"id":"p43","name":"Tekapo Springs","type":"swim","lat":-43.998,"lng":170.466,"notes":"Hot pools; book a stargazing soak."},
-       {"id":"p44","name":"Mt John Observatory","type":"view","lat":-43.985,"lng":170.465,"notes":"Walk or drive up; night tours from the village."}
-     ]},
-    {"id":"s15","name":"Christchurch","region":"Canterbury","lat":-43.53,"lng":172.60,"nights":1,
-     "baked":{"km":224.1,"min":182},
-     "highlights":["A last night near the airport","Optional detour to Geraldine for cheese and cafés on the way"],
-     "tip":"Stay near the airport so departure day is easy.",
-     "pois":[]},
-    {"id":"s16","name":"Christchurch Airport","region":"Canterbury","lat":-43.489,"lng":172.532,"nights":0,"kind":"airport",
-     "baked":{"km":8.4,"min":16},
-     "highlights":["Return the car and head home"],
-     "tip":"Allow 3 hours before an international flight.","pois":[]}
-  ]
+ "schema": 1,
+ "dataVersion": "1.1",
+ "title": "South Island Slow Loop",
+ "start": "2026-12-06",
+ "end": "2027-01-23",
+ "stops": [
+  {
+   "id": "s0",
+   "name": "Christchurch Airport",
+   "region": "Canterbury",
+   "lat": -43.489,
+   "lng": 172.532,
+   "nights": 0,
+   "kind": "airport",
+   "highlights": [
+    "Land and pick up the hire car",
+    "Get a local SIM or eSIM in the arrivals hall"
+   ],
+   "tip": "The trip starts and ends here.",
+   "pois": [],
+   "wiki": "Christchurch Airport"
+  },
+  {
+   "id": "s1",
+   "name": "Christchurch",
+   "region": "Canterbury",
+   "lat": -43.532,
+   "lng": 172.637,
+   "nights": 2,
+   "baked": {
+    "km": 11.4,
+    "min": 22
+   },
+   "highlights": [
+    "Botanic Gardens and a punt on the Avon",
+    "Riccarton Bush farmers' market on Saturday morning",
+    "Gondola up the Port Hills for views over Lyttelton Harbour"
+   ],
+   "tip": "Two easy days to get over jet lag before any driving.",
+   "pois": [
+    {
+     "id": "p1",
+     "name": "Christchurch Botanic Gardens",
+     "type": "sight",
+     "lat": -43.531,
+     "lng": 172.62,
+     "notes": "Free. Punting on the Avon leaves from the Antigua Boat Sheds nearby.",
+     "wiki": "Christchurch Botanic Gardens"
+    },
+    {
+     "id": "p2",
+     "name": "Riccarton Bush Farmers' Market",
+     "type": "food",
+     "lat": -43.528,
+     "lng": 172.597,
+     "notes": "Saturday mornings.",
+     "wiki": "Riccarton Bush"
+    },
+    {
+     "id": "p3",
+     "name": "Christchurch Gondola",
+     "type": "view",
+     "lat": -43.585,
+     "lng": 172.718,
+     "notes": "Views over the city, the plains and Lyttelton Harbour.",
+     "wiki": "Christchurch Gondola"
+    }
+   ],
+   "wiki": "Christchurch"
+  },
+  {
+   "id": "s2",
+   "name": "Kaikōura",
+   "region": "Top of the South",
+   "lat": -42.4,
+   "lng": 173.68,
+   "nights": 3,
+   "baked": {
+    "km": 179.8,
+    "min": 156
+   },
+   "highlights": [
+    "Whale watching by boat; sperm whales live here year-round",
+    "Peninsula walkway past the seal colony",
+    "Crayfish from a roadside caravan"
+   ],
+   "tip": "Tours cancel in rough seas. Three nights gives a spare day to rebook.",
+   "pois": [
+    {
+     "id": "p4",
+     "name": "Point Kean seal colony",
+     "type": "wildlife",
+     "lat": -42.425,
+     "lng": 173.712,
+     "notes": "Start of the Kaikōura Peninsula Walkway. Keep 20 m from the seals.",
+     "wiki": "Kaikōura Peninsula"
+    },
+    {
+     "id": "p5",
+     "name": "Ohau Point",
+     "type": "wildlife",
+     "lat": -42.249,
+     "lng": 173.83,
+     "notes": "Roadside seal lookout north of town.",
+     "wiki": "New Zealand fur seal"
+    }
+   ],
+   "wiki": "Kaikōura"
+  },
+  {
+   "id": "s3",
+   "name": "Marlborough Sounds · Havelock",
+   "region": "Top of the South",
+   "lat": -41.28,
+   "lng": 173.77,
+   "nights": 4,
+   "baked": {
+    "km": 170.3,
+    "min": 142
+   },
+   "highlights": [
+    "Short sections of the Queen Charlotte Track, with a boat to drop you off",
+    "Green-lipped mussel cruise from Havelock",
+    "Cycle between Blenheim cellar doors"
+   ],
+   "tip": "Stay somewhere on the water and keep some days empty.",
+   "pois": [
+    {
+     "id": "p6",
+     "name": "Pelorus Bridge",
+     "type": "swim",
+     "lat": -41.3,
+     "lng": 173.574,
+     "notes": "River swimming hole and short bush walks.",
+     "wiki": "Pelorus Bridge"
+    },
+    {
+     "id": "p7",
+     "name": "Wairau Valley wineries",
+     "type": "food",
+     "lat": -41.5,
+     "lng": 173.85,
+     "notes": "Hire bikes in Renwick and ride between cellar doors.",
+     "wiki": "Marlborough wine region"
+    }
+   ],
+   "wiki": "Marlborough Sounds"
+  },
+  {
+   "id": "s4",
+   "name": "Abel Tasman · Kaiteriteri",
+   "region": "Top of the South",
+   "lat": -41.04,
+   "lng": 173.02,
+   "nights": 5,
+   "baked": {
+    "km": 133.5,
+    "min": 132
+   },
+   "highlights": [
+    "Water taxi to a golden beach, walk an hour, get picked up",
+    "Half-day guided kayak with fur seals",
+    "Nelson's Saturday market and Māpua wharf"
+   ],
+   "tip": "One of the sunniest corners of NZ, and a good place for beach days.",
+   "pois": [
+    {
+     "id": "p8",
+     "name": "Split Apple Rock",
+     "type": "sight",
+     "lat": -41.042,
+     "lng": 173.035,
+     "notes": "Short walk from Tokongawa Drive, or by kayak.",
+     "wiki": "Split Apple Rock"
+    },
+    {
+     "id": "p9",
+     "name": "Anchorage Bay",
+     "type": "walk",
+     "lat": -40.958,
+     "lng": 173.059,
+     "notes": "Popular water-taxi drop-off; walk back to Marahau (12 km) or just swim.",
+     "wiki": "Abel Tasman Coast Track"
+    },
+    {
+     "id": "p10",
+     "name": "Māpua Wharf",
+     "type": "food",
+     "lat": -41.256,
+     "lng": 173.097,
+     "notes": "Fish and chips and small galleries.",
+     "wiki": "Māpua"
+    },
+    {
+     "id": "p11",
+     "name": "Nelson Saturday Market",
+     "type": "food",
+     "lat": -41.272,
+     "lng": 173.284,
+     "notes": "Montgomery Square, Saturday mornings.",
+     "wiki": "Nelson, New Zealand"
+    }
+   ],
+   "wiki": "Abel Tasman National Park"
+  },
+  {
+   "id": "s5",
+   "name": "Golden Bay · Tākaka",
+   "region": "Top of the South",
+   "lat": -40.86,
+   "lng": 172.81,
+   "nights": 6,
+   "baked": {
+    "km": 53.5,
+    "min": 46
+   },
+   "highlights": [
+    "Te Waikoropupū Springs, some of the clearest water in the world",
+    "Wharariki Beach and its arches at low tide",
+    "Farewell Spit guided tour"
+   ],
+   "tip": "A quiet place for Christmas. Shops close on 25 December, so stock up beforehand.",
+   "pois": [
+    {
+     "id": "p12",
+     "name": "Te Waikoropupū Springs",
+     "type": "sight",
+     "lat": -40.848,
+     "lng": 172.771,
+     "notes": "Sacred site: look, don't touch the water.",
+     "wiki": "Te Waikoropupū Springs"
+    },
+    {
+     "id": "p13",
+     "name": "Wharariki Beach",
+     "type": "walk",
+     "lat": -40.502,
+     "lng": 172.682,
+     "notes": "20-minute walk over dunes. Go at low tide for the caves and arches.",
+     "wiki": "Wharariki Beach"
+    },
+    {
+     "id": "p14",
+     "name": "Labyrinth Rocks",
+     "type": "walk",
+     "lat": -40.84,
+     "lng": 172.82,
+     "notes": "Easy maze of limestone outcrops; fun with kids."
+    }
+   ],
+   "wiki": "Golden Bay / Mohua"
+  },
+  {
+   "id": "s6",
+   "name": "Punakaiki",
+   "region": "West Coast",
+   "lat": -42.11,
+   "lng": 171.33,
+   "nights": 2,
+   "baked": {
+    "km": 321.1,
+    "min": 256
+   },
+   "highlights": [
+    "Pancake Rocks and blowholes, best at high tide",
+    "Pororari River track through nīkau palms",
+    "Wild beach sunsets"
+   ],
+   "tip": "The longest drive of the trip. Break it in Murchison or at the Buller Gorge swing bridge.",
+   "pois": [
+    {
+     "id": "p15",
+     "name": "Pancake Rocks",
+     "type": "sight",
+     "lat": -42.113,
+     "lng": 171.326,
+     "notes": "20-minute loop walk. Blowholes work best at high tide with a swell.",
+     "wiki": "Pancake Rocks"
+    },
+    {
+     "id": "p16",
+     "name": "Pororari River Track",
+     "type": "walk",
+     "lat": -42.103,
+     "lng": 171.338,
+     "notes": "Flat walk up a limestone gorge.",
+     "wiki": "Pororari River"
+    }
+   ],
+   "wiki": "Punakaiki"
+  },
+  {
+   "id": "s7",
+   "name": "Franz Josef",
+   "region": "West Coast",
+   "lat": -43.39,
+   "lng": 170.18,
+   "nights": 3,
+   "baked": {
+    "km": 217.4,
+    "min": 179
+   },
+   "highlights": [
+    "Glacier valley walk, or a heli-hike if the weather allows",
+    "Lake Matheson at dawn for the mirror view of Aoraki",
+    "Okārito lagoon kayak among herons"
+   ],
+   "tip": "Sandflies are fierce on the West Coast, so bring repellent.",
+   "pois": [
+    {
+     "id": "p17",
+     "name": "Hokitika Gorge",
+     "type": "sight",
+     "lat": -42.954,
+     "lng": 171.006,
+     "notes": "On the way down: turquoise river and swing bridge. About 40 min detour.",
+     "wiki": "Hokitika Gorge"
+    },
+    {
+     "id": "p18",
+     "name": "Franz Josef Glacier valley walk",
+     "type": "walk",
+     "lat": -43.43,
+     "lng": 170.18,
+     "notes": "About 1.5 h return to the viewpoint.",
+     "wiki": "Franz Josef Glacier"
+    },
+    {
+     "id": "p19",
+     "name": "Lake Matheson",
+     "type": "view",
+     "lat": -43.443,
+     "lng": 169.966,
+     "notes": "Go early on a still morning for the reflection.",
+     "wiki": "Lake Matheson"
+    },
+    {
+     "id": "p20",
+     "name": "Okārito",
+     "type": "wildlife",
+     "lat": -43.22,
+     "lng": 170.16,
+     "notes": "Kayak the lagoon; kōtuku (white heron) country.",
+     "wiki": "Okarito"
+    }
+   ],
+   "wiki": "Franz Josef / Waiau"
+  },
+  {
+   "id": "s8",
+   "name": "Wānaka",
+   "region": "Lakes & Fiordland",
+   "lat": -44.7,
+   "lng": 169.13,
+   "nights": 5,
+   "baked": {
+    "km": 285.4,
+    "min": 231
+   },
+   "highlights": [
+    "Blue Pools and waterfalls on the Haast Pass",
+    "Lake swims and the flat lakefront path to \"That Wanaka Tree\"",
+    "Rob Roy Glacier track in Mt Aspiring National Park"
+   ],
+   "tip": "New Year by the lake. Five nights here, easy to fill with short walks and lake days.",
+   "pois": [
+    {
+     "id": "p21",
+     "name": "Blue Pools",
+     "type": "swim",
+     "lat": -44.159,
+     "lng": 169.276,
+     "notes": "On the Haast Pass drive in. 30-minute return walk.",
+     "wiki": "Blue Pools"
+    },
+    {
+     "id": "p22",
+     "name": "That Wanaka Tree",
+     "type": "view",
+     "lat": -44.696,
+     "lng": 169.132,
+     "notes": "Short walk along the lakefront.",
+     "wiki": "That Wanaka Tree"
+    },
+    {
+     "id": "p23",
+     "name": "Rob Roy Glacier Track",
+     "type": "walk",
+     "lat": -44.5,
+     "lng": 168.74,
+     "notes": "From Raspberry Creek car park, 3-4 h return. Gravel road with fords.",
+     "wiki": "Rob Roy Glacier"
+    },
+    {
+     "id": "p24",
+     "name": "Puzzling World",
+     "type": "activity",
+     "lat": -44.701,
+     "lng": 169.16,
+     "notes": "Good on a rainy day.",
+     "wiki": "Puzzling World"
+    }
+   ],
+   "wiki": "Wānaka"
+  },
+  {
+   "id": "s9",
+   "name": "Arrowtown & Queenstown",
+   "region": "Lakes & Fiordland",
+   "lat": -44.94,
+   "lng": 168.83,
+   "nights": 4,
+   "baked": {
+    "km": 55.0,
+    "min": 63
+   },
+   "highlights": [
+    "Gold-rush Arrowtown and the Chinese settlement",
+    "Lake Hayes loop walk or the Arrow River cycle trails",
+    "Gondola in Queenstown, then a drive to Glenorchy"
+   ],
+   "tip": "Base in Arrowtown, which is calmer, and go into Queenstown for the day.",
+   "pois": [
+    {
+     "id": "p25",
+     "name": "Arrowtown Chinese Settlement",
+     "type": "sight",
+     "lat": -44.936,
+     "lng": 168.83,
+     "notes": "Restored huts of gold-rush era Chinese miners.",
+     "wiki": "Arrowtown Chinese Settlement"
+    },
+    {
+     "id": "p26",
+     "name": "Lake Hayes loop",
+     "type": "walk",
+     "lat": -44.98,
+     "lng": 168.81,
+     "notes": "8 km flat loop, good café at the end.",
+     "wiki": "Lake Hayes"
+    },
+    {
+     "id": "p27",
+     "name": "Skyline Gondola",
+     "type": "view",
+     "lat": -45.03,
+     "lng": 168.65,
+     "notes": "Queenstown; luge at the top.",
+     "wiki": "Skyline Queenstown"
+    },
+    {
+     "id": "p28",
+     "name": "Glenorchy",
+     "type": "view",
+     "lat": -44.85,
+     "lng": 168.39,
+     "notes": "45-minute lakeside drive from Queenstown.",
+     "wiki": "Glenorchy, New Zealand"
+    }
+   ],
+   "wiki": "Arrowtown"
+  },
+  {
+   "id": "s10",
+   "name": "Te Anau",
+   "region": "Lakes & Fiordland",
+   "lat": -45.414,
+   "lng": 167.718,
+   "nights": 4,
+   "baked": {
+    "km": 179.1,
+    "min": 143
+   },
+   "highlights": [
+    "Milford Sound cruise, with Mirror Lakes on the drive in",
+    "Te Anau glowworm caves by boat",
+    "Lake Manapōuri, or an overnight cruise on Doubtful Sound"
+   ],
+   "tip": "Keep Milford flexible and pick the best-weather day. A visitor charge for international visitors is planned there.",
+   "pois": [
+    {
+     "id": "p29",
+     "name": "Milford Sound",
+     "type": "sight",
+     "lat": -44.671,
+     "lng": 167.926,
+     "notes": "About 2 h each way from Te Anau. Book the cruise.",
+     "wiki": "Milford Sound"
+    },
+    {
+     "id": "p30",
+     "name": "Mirror Lakes",
+     "type": "view",
+     "lat": -44.96,
+     "lng": 168.01,
+     "notes": "Short boardwalk on the Milford Road.",
+     "wiki": "Mirror Lakes"
+    },
+    {
+     "id": "p31",
+     "name": "Lake Manapōuri",
+     "type": "activity",
+     "lat": -45.56,
+     "lng": 167.61,
+     "notes": "Departure point for Doubtful Sound cruises.",
+     "wiki": "Lake Manapouri"
+    }
+   ],
+   "wiki": "Te Anau"
+  },
+  {
+   "id": "s11",
+   "name": "The Catlins",
+   "region": "Southern",
+   "lat": -46.55,
+   "lng": 169.4,
+   "nights": 2,
+   "baked": {
+    "km": 268.4,
+    "min": 222
+   },
+   "highlights": [
+    "Nugget Point lighthouse and seals",
+    "Curio Bay petrified forest; yellow-eyed penguins come ashore at dusk",
+    "Purakaunui and McLean waterfalls"
+   ],
+   "tip": "Few shops or fuel stops, so fill up in Gore or Invercargill.",
+   "pois": [
+    {
+     "id": "p32",
+     "name": "Curio Bay",
+     "type": "wildlife",
+     "lat": -46.661,
+     "lng": 169.1,
+     "notes": "Petrified forest at low tide; penguins at dusk. Keep well back.",
+     "wiki": "Curio Bay"
+    },
+    {
+     "id": "p33",
+     "name": "McLean Falls",
+     "type": "walk",
+     "lat": -46.6,
+     "lng": 169.37,
+     "notes": "40-minute return walk.",
+     "wiki": "McLean Falls"
+    },
+    {
+     "id": "p34",
+     "name": "Purakaunui Falls",
+     "type": "walk",
+     "lat": -46.545,
+     "lng": 169.564,
+     "notes": "20-minute return walk.",
+     "wiki": "Purakaunui Falls"
+    },
+    {
+     "id": "p35",
+     "name": "Nugget Point",
+     "type": "view",
+     "lat": -46.448,
+     "lng": 169.817,
+     "notes": "Lighthouse walk; seals on the rocks below.",
+     "wiki": "Nugget Point"
+    }
+   ],
+   "wiki": "The Catlins"
+  },
+  {
+   "id": "s12",
+   "name": "Dunedin · Otago Peninsula",
+   "region": "Southern",
+   "lat": -45.874,
+   "lng": 170.503,
+   "nights": 3,
+   "baked": {
+    "km": 142.3,
+    "min": 136
+   },
+   "highlights": [
+    "Royal albatross colony at Taiaroa Head",
+    "Penguin and sea lion tours on the peninsula",
+    "St Clair beach and the Saturday farmers' market"
+   ],
+   "tip": "Good cafés and an easy city to slow down in.",
+   "pois": [
+    {
+     "id": "p36",
+     "name": "Royal Albatross Centre",
+     "type": "wildlife",
+     "lat": -45.774,
+     "lng": 170.728,
+     "notes": "The only mainland royal albatross colony in the world.",
+     "wiki": "Taiaroa Head"
+    },
+    {
+     "id": "p37",
+     "name": "St Clair Beach",
+     "type": "swim",
+     "lat": -45.912,
+     "lng": 170.487,
+     "notes": "Hot salt-water pool on the esplanade.",
+     "wiki": "St Clair, New Zealand"
+    },
+    {
+     "id": "p38",
+     "name": "Otago Farmers Market",
+     "type": "food",
+     "lat": -45.875,
+     "lng": 170.508,
+     "notes": "Railway station, Saturday mornings.",
+     "wiki": "Dunedin railway station"
+    }
+   ],
+   "wiki": "Otago Peninsula"
+  },
+  {
+   "id": "s13",
+   "name": "Aoraki / Mt Cook",
+   "region": "Mackenzie",
+   "lat": -43.735,
+   "lng": 170.096,
+   "nights": 2,
+   "baked": {
+    "km": 320.1,
+    "min": 258
+   },
+   "highlights": [
+    "Hooker Valley Track to an iceberg lake (flat, about 3 h return)",
+    "Tasman Glacier viewpoint, a short climb",
+    "Stargazing from the village"
+   ],
+   "tip": "Break the drive at Moeraki and Ōamaru. A visitor charge for international visitors is planned for this park.",
+   "pois": [
+    {
+     "id": "p39",
+     "name": "Moeraki Boulders",
+     "type": "sight",
+     "lat": -45.345,
+     "lng": 170.827,
+     "notes": "On the way from Dunedin. Best at low tide.",
+     "wiki": "Moeraki Boulders"
+    },
+    {
+     "id": "p40",
+     "name": "Hooker Valley Track",
+     "type": "walk",
+     "lat": -43.719,
+     "lng": 170.093,
+     "notes": "From White Horse Hill car park. Three swing bridges.",
+     "wiki": "Hooker Glacier"
+    },
+    {
+     "id": "p41",
+     "name": "Tasman Glacier viewpoint",
+     "type": "view",
+     "lat": -43.684,
+     "lng": 170.164,
+     "notes": "20-minute climb; boat trips on the lake in summer.",
+     "wiki": "Tasman Glacier"
+    }
+   ],
+   "wiki": "Aoraki / Mount Cook"
+  },
+  {
+   "id": "s14",
+   "name": "Lake Tekapo",
+   "region": "Mackenzie",
+   "lat": -44.004,
+   "lng": 170.477,
+   "nights": 2,
+   "baked": {
+    "km": 104.8,
+    "min": 83
+   },
+   "highlights": [
+    "Church of the Good Shepherd on the turquoise lake",
+    "Tekapo Springs hot pools",
+    "Night sky tour in the Dark Sky Reserve"
+   ],
+   "tip": "The hot pools are a good way to rest after the walking.",
+   "pois": [
+    {
+     "id": "p42",
+     "name": "Church of the Good Shepherd",
+     "type": "sight",
+     "lat": -44.005,
+     "lng": 170.485,
+     "notes": "Busy at sunset; early morning is quieter.",
+     "wiki": "Church of the Good Shepherd (Lake Tekapo)"
+    },
+    {
+     "id": "p43",
+     "name": "Tekapo Springs",
+     "type": "swim",
+     "lat": -43.998,
+     "lng": 170.466,
+     "notes": "Hot pools; book a stargazing soak."
+    },
+    {
+     "id": "p44",
+     "name": "Mt John Observatory",
+     "type": "view",
+     "lat": -43.985,
+     "lng": 170.465,
+     "notes": "Walk or drive up; night tours from the village.",
+     "wiki": "Mount John University Observatory"
+    }
+   ],
+   "wiki": "Lake Tekapo"
+  },
+  {
+   "id": "s15",
+   "name": "Christchurch",
+   "region": "Canterbury",
+   "lat": -43.53,
+   "lng": 172.6,
+   "nights": 1,
+   "baked": {
+    "km": 224.1,
+    "min": 182
+   },
+   "highlights": [
+    "A last night near the airport",
+    "Optional detour to Geraldine for cheese and cafés on the way"
+   ],
+   "tip": "Stay near the airport so departure day is easy.",
+   "pois": [],
+   "wiki": "Avon River / Ōtākaro"
+  },
+  {
+   "id": "s16",
+   "name": "Christchurch Airport",
+   "region": "Canterbury",
+   "lat": -43.489,
+   "lng": 172.532,
+   "nights": 0,
+   "kind": "airport",
+   "baked": {
+    "km": 8.4,
+    "min": 16
+   },
+   "highlights": [
+    "Return the car and head home"
+   ],
+   "tip": "Allow 3 hours before an international flight.",
+   "pois": [],
+   "wiki": "Christchurch Airport"
+  }
+ ]
 }

@@ -21,13 +21,16 @@ Live at **https://jsawle.github.io/gallery/nz-trip/**
 - Sentinel-2 cloudless satellite imagery by EOX (Austria)
 - OSRM routing on the FOSSGIS server (Germany), with the OSRM demo server as a fallback
 - Nominatim search (OpenStreetMap Foundation)
+- Photos: main image of each place's Wikipedia article, from Wikimedia Commons, credited on each photo
+- Place and directions links open Google Maps
 
 ## Versions
 | Part | Version |
 |---|---|
-| App | 3.0.0 |
-| Itinerary data | 1.0 |
+| App | 3.1.0 |
+| Itinerary data | 1.1 |
 | Road routing | 1.0 |
 | Date calculator | 1.0 |
+| Photos | 1.0 |
 
 Created by Jason Sawle.
