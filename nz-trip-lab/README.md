@@ -36,4 +36,3 @@ Test version at **https://jsawle.github.io/gallery/nz-trip-lab/**
 | Date calculator | 1.0 |
 | Photos | 1.0 |
 
-Created by Jason Sawle.
