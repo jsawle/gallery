@@ -6,7 +6,7 @@
 <title>South Island Slow Loop</title>
 <meta name="description" content="A relaxed South Island road trip, 6 December 2026 to 23 January 2027, starting and ending in Christchurch. Editable map with road distances.">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
-<link rel="stylesheet" href="app.css?v=3.3.0">
+<link rel="stylesheet" href="app.css?v=3.3.1">
 </head>
 <body>
 <a class="skip" href="#itinerary">Skip to itinerary</a>
@@ -28,7 +28,7 @@
 <nav class="glass panel-list sheet" id="itinerary" aria-label="Itinerary">
   <div class="grab" role="button" tabindex="0" aria-label="Resize itinerary panel"></div>
   <div class="panel-head">
-    <h2>Itinerary</h2>
+    <h2>Itinerary <span class="count" id="stop-count"></span></h2>
     <button class="icon-btn" id="btn-collapse" aria-expanded="true" aria-controls="stop-list" title="Hide list">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><span class="sr">Hide list</span>
     </button>
@@ -78,6 +78,6 @@
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
 <script src="data/nz-coast.js?v=1"></script>
-<script src="app.js?v=3.3.0"></script>
+<script src="app.js?v=3.3.1"></script>
 </body>
 </html>

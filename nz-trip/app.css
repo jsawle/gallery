@@ -195,25 +195,29 @@ body.picking #map canvas{cursor:crosshair}
 #detail-body{padding:18px 18px 16px;overflow-y:auto;min-height:0}
 @media (max-width: 760px){
   /* Phone: compact header on top, one draggable bottom sheet (itinerary or details), tab bar at the bottom */
-  .card-summary{left:8px;right:8px;width:auto;top:calc(8px + env(safe-area-inset-top,0px));padding:10px 14px;gap:4px;border-radius:20px}
-  .card-summary .eyebrow{font-size:11px}
-  h1{font-size:18px}
-  .stats{display:flex;gap:14px;flex-wrap:wrap}
-  .stats div{display:flex;gap:4px;align-items:baseline}
-  .stats .v{font-size:15px}
+  html,body{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
+  /* compact header: title + one stats line; the date-fit chip only appears when something needs attention */
+  .card-summary{left:8px;right:8px;width:auto;top:calc(6px + env(safe-area-inset-top,0px));padding:8px 14px 9px;gap:2px;border-radius:18px}
+  .card-summary .eyebrow{display:none}
+  h1{font-size:16px}
+  .stats{display:flex;gap:12px;flex-wrap:nowrap;white-space:nowrap;overflow:hidden}
+  .stats div{display:flex;gap:3px;align-items:baseline}
+  .stats .v{font-size:14px}
   .stats .l{font-size:12px}
-  .chip{font-size:11.5px;padding:3px 8px}
+  .chip{font-size:11px;padding:2px 8px}
+  .chip.ok{display:none}
+  .count{font-weight:500;color:var(--muted);font-size:14px}
   .sheet{left:8px;right:8px;width:auto;top:auto;max-height:none;
-    bottom:calc(84px + env(safe-area-inset-bottom,0px));height:var(--sheet-h,156px);
+    bottom:calc(68px + env(safe-area-inset-bottom,0px));height:var(--sheet-h,92px);
     display:flex;flex-direction:column;overflow:hidden;border-radius:24px;z-index:12;
     transition:height .28s cubic-bezier(.2,.8,.2,1)}
   .sheet.dragging{transition:none}
-  .panel-list.collapsed{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .panel-list.collapsed{bottom:calc(68px + env(safe-area-inset-bottom,0px))}
   .panel-list.collapsed .stop-list{display:block}
-  .grab{display:block;flex:none;height:26px;touch-action:none;cursor:grab;position:relative}
-  .grab::before{content:"";position:absolute;left:50%;top:9px;width:42px;height:5px;margin-left:-21px;border-radius:3px;background:var(--muted);opacity:.55}
+  .grab{display:block;flex:none;height:22px;touch-action:none;cursor:grab;position:relative}
+  .grab::before{content:"";position:absolute;left:50%;top:8px;width:42px;height:5px;margin-left:-21px;border-radius:3px;background:var(--muted);opacity:.55}
   .grab:focus-visible{outline-offset:-3px}
-  .panel-head{padding:0 10px 4px 18px}
+  .panel-head{padding:0 10px 6px 18px}
   .stop-list{overscroll-behavior:contain}
   .stop-btn{min-height:56px}
   .list-credit{display:block;text-align:center;font-size:12px;color:var(--muted);padding:14px 0 6px}
@@ -233,18 +237,18 @@ body.picking #map canvas{cursor:crosshair}
   .hero img{aspect-ratio:2/1;max-height:180px}
   .links a{display:inline-block;padding:4px 0}
   /* tab bar */
-  .toolbar{left:8px;right:8px;transform:none;bottom:calc(8px + env(safe-area-inset-bottom,0px));padding:6px;gap:2px;border-radius:24px;justify-content:space-around}
-  .tb{flex:1;flex-direction:column;gap:3px;padding:6px 2px;min-height:56px;min-width:0;border-radius:18px;font-size:11px;font-weight:600}
+  .toolbar{left:8px;right:8px;transform:none;bottom:calc(6px + env(safe-area-inset-bottom,0px));padding:4px;gap:2px;border-radius:20px;justify-content:space-around}
+  .tb{flex:1;flex-direction:column;gap:1px;padding:4px 2px;min-height:48px;min-width:0;border-radius:16px;font-size:10.5px;font-weight:600}
   .tb span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-  .tb svg{width:22px;height:22px}
+  .tb svg{width:20px;height:20px}
   .tb .lg{display:none}
   .tb .sm{display:block}
-  .menu{left:8px;right:8px;transform:none;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30}
+  .menu{left:8px;right:8px;transform:none;bottom:calc(68px + env(safe-area-inset-bottom,0px));z-index:30}
   .menu button,.check{min-height:48px;font-size:16px}
-  .toast{top:calc(104px + env(safe-area-inset-top,0px));bottom:auto}
+  .toast{top:calc(70px + env(safe-area-inset-top,0px));bottom:auto}
   .banner{left:8px;right:8px;transform:none;top:calc(8px + env(safe-area-inset-top,0px));border-radius:20px;justify-content:space-between;flex-wrap:wrap}
   .maplibregl-ctrl-bottom-left,.maplibregl-ctrl-bottom-right .maplibregl-ctrl-group,.ver-ctrl{display:none}
-  .maplibregl-ctrl-bottom-right{bottom:auto;top:calc(110px + env(safe-area-inset-top,0px))}
+  .maplibregl-ctrl-bottom-right{bottom:auto;top:calc(66px + env(safe-area-inset-top,0px));right:4px}
   .maplibregl-ctrl-attrib{border-radius:10px 0 0 10px}
   .dlg{padding:18px 16px;max-height:calc(100dvh - 40px);overflow:auto}
   .dlg table{display:block;overflow-x:auto}

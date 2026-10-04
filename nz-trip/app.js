@@ -5,7 +5,7 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.3.0";
+const APP_VERSION = "3.3.1";
 const VERSIONS = [
   ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
@@ -127,6 +127,12 @@ async function boot() {
   await initMap();
   renderAll();
   fitAll(false);
+  // Phone browsers resize the page as their toolbars appear and hide; keep the whole trip in view until the user moves the map
+  let userMoved = false;
+  ["dragstart", "zoomstart", "rotatestart", "pitchstart"].forEach((ev) => map.on(ev, (e) => { if (e.originalEvent) userMoved = true; }));
+  let ft; const refit = () => { clearTimeout(ft); ft = setTimeout(() => { if (!userMoved && !sel) fitAll(false); }, 200); };
+  addEventListener("resize", refit); window.visualViewport?.addEventListener("resize", refit);
+  requestAnimationFrame(refit);
   routeAll();
   loadPhotos();
 }
@@ -196,7 +202,10 @@ function padding() {
   if (isPhone()) {
     const top = $(".card-summary").getBoundingClientRect().bottom + 10;
     const sh = activeSheet().getBoundingClientRect();
-    return { top, bottom: Math.max(80, innerHeight - sh.top + 10), left: 24, right: 24 };
+    let bottom = Math.max(60, innerHeight - sh.top + 10);
+    const room = innerHeight - top - bottom;
+    if (room < 140) bottom = Math.max(40, bottom - (140 - room));   // never squeeze the map to nothing
+    return { top, bottom, left: 20, right: 20 };
   }
   return { top: 40, bottom: 90, left: 380, right: $("#detail").hidden ? 60 : 420 };
 }
@@ -430,6 +439,7 @@ function renderList() {
     btn.addEventListener("click", () => select({ type: "stop", id: s.id }, true));
     li.appendChild(btn); ol.appendChild(li);
   });
+  const sc = $("#stop-count"); if (sc) sc.textContent = `· ${trip.stops.filter((x) => !isAirport(x)).length} stops`;
   const cr = document.createElement("li"); cr.className = "list-credit"; cr.innerHTML = `<button type="button" class="ver-link">Version ${APP_VERSION}</button>`; cr.querySelector("button").onclick = about; ol.appendChild(cr);
   ol.scrollTop = keepScroll;
 }
@@ -828,7 +838,7 @@ function sheetHeights() {
   const bottomY = $(".toolbar").getBoundingClientRect().top - 8;
   const topY = Math.max(8, $(".card-summary").getBoundingClientRect().top);
   const full = Math.max(200, bottomY - topY);
-  return { peek: Math.min(156, full), half: Math.min(Math.round(innerHeight * 0.5), full), full };
+  return { peek: Math.min(isPhone() ? 92 : 156, full), half: Math.min(Math.round(innerHeight * 0.48), full), full };
 }
 function setSheet(state) {
   if (!isPhone()) return;

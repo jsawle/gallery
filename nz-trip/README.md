@@ -32,7 +32,7 @@ When changing `app.js` or `app.css`, bump `APP_VERSION` in `app.js` and the `?v=
 ## Versions
 | Part | Version |
 |---|---|
-| App | 3.3.0 |
+| App | 3.3.1 |
 | Itinerary data | 1.2 |
 | Road routing | 1.0 |
 | Date calculator | 1.0 |
