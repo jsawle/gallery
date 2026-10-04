@@ -109,7 +109,7 @@ h2{font-family:var(--display);font-size:16px;margin:0;font-weight:650}
 .leg.approx::after{content:"approx.";font-style:italic;opacity:.8}
 
 /* ---------- Detail panel ---------- */
-.panel-detail{top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:380px;max-height:calc(100% - 120px);overflow-y:auto;padding:18px 18px 16px}
+.panel-detail{top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:380px;max-height:calc(100% - 120px);display:flex;flex-direction:column;padding:0}
 .panel-detail h3{font-family:var(--display);font-size:22px;line-height:1.15;margin:0 0 4px;font-weight:700;text-wrap:balance;padding-right:36px}
 .panel-detail .meta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:10px}
 .panel-detail ul{margin:0 0 10px;padding-left:18px}
@@ -185,19 +185,70 @@ body.picking #map canvas{cursor:crosshair}
 .maplibregl-ctrl-top-right{top:auto!important;bottom:60px;right:4px}
 
 /* ---------- Phone ---------- */
+.grab{display:none}
+.tb .sm{display:none}
+.list-credit{display:none}
+.lab-badge{background:var(--warn);color:#fff;border-radius:6px;padding:1px 6px;letter-spacing:.04em}
+#detail-body{padding:18px 18px 16px;overflow-y:auto;min-height:0}
 @media (max-width: 760px){
-  .card-summary{left:10px;right:10px;width:auto;top:calc(10px + env(safe-area-inset-top,0px));padding:12px 14px;gap:6px}
-  h1{font-size:20px}
-  .stats .v{font-size:17px}
-  .panel-list{left:10px;right:10px;width:auto;top:auto;bottom:calc(78px + env(safe-area-inset-bottom,0px));max-height:38vh}
-  .panel-list.collapsed{max-height:none}
-  .panel-detail{left:10px;right:10px;width:auto;top:auto;bottom:calc(78px + env(safe-area-inset-bottom,0px));max-height:55vh}
-  .toolbar{left:10px;right:10px;transform:none;justify-content:space-between;overflow-x:auto}
-  .tb{padding:9px 10px}
-  .tb span{display:none}
-  .credit{display:none}
+  /* Phone: compact header on top, one draggable bottom sheet (itinerary or details), tab bar at the bottom */
+  .card-summary{left:8px;right:8px;width:auto;top:calc(8px + env(safe-area-inset-top,0px));padding:10px 14px;gap:4px;border-radius:20px}
+  .card-summary .eyebrow{font-size:11px}
+  h1{font-size:18px}
+  .stats{display:flex;gap:14px;flex-wrap:wrap}
+  .stats div{display:flex;gap:4px;align-items:baseline}
+  .stats .v{font-size:15px}
+  .stats .l{font-size:12px}
+  .chip{font-size:11.5px;padding:3px 8px}
+  .sheet{left:8px;right:8px;width:auto;top:auto;max-height:none;
+    bottom:calc(84px + env(safe-area-inset-bottom,0px));height:var(--sheet-h,156px);
+    display:flex;flex-direction:column;overflow:hidden;border-radius:24px;z-index:12;
+    transition:height .28s cubic-bezier(.2,.8,.2,1)}
+  .sheet.dragging{transition:none}
+  .panel-list.collapsed{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .panel-list.collapsed .stop-list{display:block}
+  .grab{display:block;flex:none;height:26px;touch-action:none;cursor:grab;position:relative}
+  .grab::before{content:"";position:absolute;left:50%;top:9px;width:42px;height:5px;margin-left:-21px;border-radius:3px;background:var(--muted);opacity:.55}
+  .grab:focus-visible{outline-offset:-3px}
+  .panel-head{padding:0 10px 4px 18px}
+  .stop-list{overscroll-behavior:contain}
+  .stop-btn{min-height:56px}
+  .list-credit{display:block;text-align:center;font-size:12px;color:var(--muted);padding:14px 0 6px}
+  .panel-detail{padding:0}
+  #detail-body{padding:2px 16px 16px;flex:1;overscroll-behavior:contain}
+  .panel-detail .close{top:10px;right:10px;width:40px;height:40px}
+  .hero{margin:0 0 12px}
+  .hero img{border-radius:16px}
+  .hero figcaption{padding:4px 2px 0}
+  .panel-detail h3{font-size:20px}
   .has-detail .panel-list{display:none}
-  .menu{left:10px;right:10px;transform:none}
-  .maplibregl-ctrl-top-right{display:none}
+  .btn{min-height:44px;padding:10px 16px}
+  .poi-btn{min-height:56px}
+  .form input,.form textarea,.form select{font-size:16px}   /* stops iOS zooming into fields */
+  .links{display:flex;flex-direction:column;gap:8px}
+  .links .sep{display:none}
+  .hero img{aspect-ratio:2/1;max-height:180px}
+  .links a{display:inline-block;padding:4px 0}
+  /* tab bar */
+  .toolbar{left:8px;right:8px;transform:none;bottom:calc(8px + env(safe-area-inset-bottom,0px));padding:6px;gap:2px;border-radius:24px;justify-content:space-around}
+  .tb{flex:1;flex-direction:column;gap:3px;padding:6px 2px;min-height:56px;min-width:0;border-radius:18px;font-size:11px;font-weight:600}
+  .tb span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .tb svg{width:22px;height:22px}
+  .tb .lg{display:none}
+  .tb .sm{display:block}
+  .menu{left:8px;right:8px;transform:none;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:30}
+  .menu button,.check{min-height:48px;font-size:16px}
+  .toast{top:calc(104px + env(safe-area-inset-top,0px));bottom:auto}
+  .banner{left:8px;right:8px;transform:none;top:calc(8px + env(safe-area-inset-top,0px));border-radius:20px;justify-content:space-between;flex-wrap:wrap}
+  .credit{display:none}
+  .maplibregl-ctrl-top-right,.maplibregl-ctrl-bottom-left{display:none}
+  .maplibregl-ctrl-bottom-right{bottom:auto;top:calc(110px + env(safe-area-inset-top,0px))}
+  .maplibregl-ctrl-attrib{border-radius:10px 0 0 10px}
+  .dlg{padding:18px 16px;max-height:calc(100dvh - 40px);overflow:auto}
+  .dlg table{display:block;overflow-x:auto}
+}
+@media (pointer: coarse){
+  .maplibregl-marker:has(.pin), .maplibregl-marker:has(.poi){padding:8px}
+  .poi{width:28px;height:28px;font-size:15px}
 }
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}

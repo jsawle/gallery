@@ -5,9 +5,9 @@
    Edits are saved in this browser (localStorage); share link and JSON download carry them elsewhere. */
 "use strict";
 
-const APP_VERSION = "3.1.0";
+const APP_VERSION = "3.2.0";
 const VERSIONS = [
-  ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export"],
+  ["App", APP_VERSION, "Liquid-glass interface, editing of stops and places, share link, JSON import/export; phone layout with draggable bottom sheet"],
   ["Itinerary data", null, "Default South Island plan, 6 Dec 2026 – 23 Jan 2027 (version stored in the data)"],
   ["Road routing", "1.0", "OSRM car profile per leg; geometry thinned to ~60 m; cached per pair of points"],
   ["Date calculator", "1.0", "Arrival = start date + nights at earlier stops (UTC, no time zones)"],
@@ -169,7 +169,11 @@ async function setBase(key) {
   map.setStyle(await resolveStyle(key));
 }
 function padding() {
-  if (isPhone()) return { top: 130, bottom: 120, left: 30, right: 30 };
+  if (isPhone()) {
+    const top = $(".card-summary").getBoundingClientRect().bottom + 10;
+    const sh = activeSheet().getBoundingClientRect();
+    return { top, bottom: Math.max(80, innerHeight - sh.top + 10), left: 24, right: 24 };
+  }
   return { top: 40, bottom: 90, left: 380, right: $("#detail").hidden ? 60 : 420 };
 }
 function fitAll(animate = true) {
@@ -382,6 +386,7 @@ function renderList() {
     btn.addEventListener("click", () => select({ type: "stop", id: s.id }, true));
     li.appendChild(btn); ol.appendChild(li);
   });
+  const cr = document.createElement("li"); cr.className = "list-credit"; cr.textContent = "Created by Jason Sawle"; ol.appendChild(cr);
   ol.scrollTop = keepScroll;
 }
 
@@ -438,19 +443,21 @@ function highlightMarkers() {
 let detailMode = "view"; // view | edit | add | confirm
 function select(s, fromList) {
   sel = s; detailMode = "view";
+  if (isPhone() && document.body.dataset.sheet === "peek") setSheet("half");
   renderList(); highlightMarkers(); renderDetail();
   const target = s.type === "stop" ? stopById(s.id) : stopById(s.stopId)?.pois.find((p) => p.id === s.id);
   if (target) flyTo(target.lng, target.lat, s.type === "stop" ? 8 : 10);
   if (!fromList) $("#detail h3")?.focus();
 }
-function closeDetail() { sel = null; detailMode = "view"; $("#detail").hidden = true; document.body.classList.remove("has-detail"); renderList(); highlightMarkers(); }
+function closeDetail() { sel = null; detailMode = "view"; $("#detail").hidden = true; document.body.classList.remove("has-detail"); renderList(); highlightMarkers(); if (isPhone()) setSheet("peek"); }
 
 function renderDetail() {
-  const box = $("#detail");
+  const panel = $("#detail"), box = $("#detail-body");
   if (detailMode === "add") return; // add panel renders itself
   document.body.classList.toggle("has-detail", !!sel);
-  if (!sel) { box.hidden = true; return; }
-  box.hidden = false;
+  if (!sel) { panel.hidden = true; return; }
+  if (panel.hidden && isPhone() && document.body.dataset.sheet === "peek") setSheet("half");
+  panel.hidden = false;
   if (sel.type === "stop") {
     const i = stopIndex(sel.id); if (i < 0) return closeDetail();
     return detailMode === "edit" ? stopEditor(box, i) : stopView(box, i);
@@ -468,7 +475,7 @@ function stopView(box, i) {
     <h3 tabindex="-1">${isAirport(s) ? "" : labelFor(i) + ". "}${esc(s.name)}</h3>
     <div class="meta">${s.nights ? fmtRange(a, d) + " · " + s.nights + " night" + (s.nights > 1 ? "s" : "") : fmtD(a)}${s.region ? " · " + esc(s.region) : ""}</div>
     ${leg ? `<p class="meta">From ${esc(trip.stops[i - 1].name)}: <strong>${Math.round(leg.km)} km</strong>, about ${dur(leg.min)} by road${leg.approx ? " (approximate, road route not loaded yet)" : ""}</p>` : ""}
-    <p class="links"><a href="${gmapsPlace(s)}" target="_blank" rel="noopener">Open in Google Maps</a>${i > 0 ? ` · <a href="${gmapsDir(trip.stops[i - 1], s)}" target="_blank" rel="noopener">Directions from ${esc(trip.stops[i - 1].name)}</a>` : ""}</p>
+    <p class="links"><a href="${gmapsPlace(s)}" target="_blank" rel="noopener">Open in Google Maps</a>${i > 0 ? `<span class="sep"> · </span><a href="${gmapsDir(trip.stops[i - 1], s)}" target="_blank" rel="noopener">Directions from ${esc(trip.stops[i - 1].name)}</a>` : ""}</p>
     ${s.highlights?.length ? `<ul>${s.highlights.map((h) => `<li>${esc(h)}</li>`).join("")}</ul>` : ""}
     ${s.tip ? `<div class="tip"><b>Tip</b> ${esc(s.tip)}</div>` : ""}
     ${pois.length ? `<div class="section-t">Places nearby</div><ul class="poi-list">${pois.map((p) => {
@@ -527,7 +534,7 @@ function poiView(box, s, p) {
     <h3 tabindex="-1">${esc(p.name)}</h3>
     <div class="meta">${t[0]} ${t[1]} · near ${esc(s.name)}</div>
     ${p.notes ? `<p>${esc(p.notes)}</p>` : ""}
-    <p class="links"><a href="${gmapsPlace(p)}" target="_blank" rel="noopener">Open in Google Maps</a> · <a href="${gmapsDir(s, p)}" target="_blank" rel="noopener">Directions from ${esc(s.name)}</a></p>
+    <p class="links"><a href="${gmapsPlace(p)}" target="_blank" rel="noopener">Open in Google Maps</a><span class="sep"> · </span><a href="${gmapsDir(s, p)}" target="_blank" rel="noopener">Directions from ${esc(s.name)}</a></p>
     <div class="row">
       <button class="btn" data-act="back">← ${esc(s.name)}</button>
       <span class="spacer"></span>
@@ -618,7 +625,8 @@ function startPick(kind) {
   }
   document.body.classList.add("picking", "has-detail");
   detailMode = "add";
-  const box = $("#detail"); box.hidden = false;
+  const box = $("#detail-body"); $("#detail").hidden = false;
+  if (isPhone() && document.body.dataset.sheet !== "full") setSheet("half");
   const ctx = kind === "stop"
     ? `It will go after <strong>${esc(trip.stops[pick.after].name)}</strong>. Select a stop first to put it somewhere else.`
     : `It will be added to <strong>${esc(stopById(pick.stopId).name)}</strong>.`;
@@ -765,6 +773,59 @@ function tripSettings() {
   });
 }
 
+/* ---------------- phone bottom sheet ---------------- */
+function activeSheet() { return $("#detail").hidden ? $("#itinerary") : $("#detail"); }
+function sheetHeights() {
+  const bottomY = $(".toolbar").getBoundingClientRect().top - 8;
+  const topY = Math.max(8, $(".card-summary").getBoundingClientRect().top);
+  const full = Math.max(200, bottomY - topY);
+  return { peek: Math.min(156, full), half: Math.min(Math.round(innerHeight * 0.5), full), full };
+}
+function setSheet(state) {
+  if (!isPhone()) return;
+  document.body.dataset.sheet = state;
+  const h = sheetHeights()[state];
+  document.documentElement.style.setProperty("--sheet-h", h + "px");
+  document.querySelectorAll(".grab").forEach((g) => g.setAttribute("aria-label", `Resize panel (now ${state === "peek" ? "small" : state === "half" ? "half screen" : "full screen"})`));
+  $("#btn-collapse").setAttribute("aria-expanded", String(state !== "peek"));
+}
+function initSheets() {
+  const order = ["peek", "half", "full"];
+  document.querySelectorAll(".grab").forEach((g) => {
+    let y0 = null, h0 = 0, el = null, moved = false;
+    g.addEventListener("pointerdown", (e) => {
+      if (!isPhone()) return;
+      el = g.closest(".sheet"); y0 = e.clientY; h0 = el.getBoundingClientRect().height; moved = false;
+      g.setPointerCapture(e.pointerId); el.classList.add("dragging");
+    });
+    g.addEventListener("pointermove", (e) => {
+      if (y0 == null) return;
+      const dy = y0 - e.clientY; if (Math.abs(dy) > 5) moved = true;
+      el.style.height = Math.max(60, Math.min(sheetHeights().full, h0 + dy)) + "px";
+    });
+    const end = () => {
+      if (y0 == null) return;
+      const h = el.getBoundingClientRect().height; y0 = null;
+      el.style.height = ""; el.classList.remove("dragging");
+      const cur = document.body.dataset.sheet || "peek";
+      if (!moved) { setSheet(cur === "peek" ? "half" : "peek"); return; }
+      const hs = sheetHeights();
+      if (el.id === "detail" && h < hs.peek * 0.6) { closeDetail(); return; }   // swipe down to close details
+      let best = "peek"; for (const k of order) if (Math.abs(hs[k] - h) < Math.abs(hs[best] - h)) best = k;
+      setSheet(best);
+    };
+    g.addEventListener("pointerup", end); g.addEventListener("pointercancel", end);
+    g.addEventListener("keydown", (e) => {
+      const i = order.indexOf(document.body.dataset.sheet || "peek");
+      if (e.key === "ArrowUp") { e.preventDefault(); setSheet(order[Math.min(2, i + 1)]); }
+      else if (e.key === "ArrowDown") { e.preventDefault(); setSheet(order[Math.max(0, i - 1)]); }
+      else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSheet(order[(i + 1) % 3]); }
+    });
+  });
+  setSheet("peek");
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => setSheet(document.body.dataset.sheet || "peek"), 150); });
+}
+
 /* ---------------- wiring ---------------- */
 function wire() {
   $("#btn-fit").onclick = () => { closeMenus(); fitAll(); };
@@ -787,11 +848,12 @@ function wire() {
   settings.className = "edit-only"; settings.onclick = () => { closeMenus(); tripSettings(); };
   $("#menu-more").insertBefore(settings, $("#btn-share"));
   $("#btn-collapse").onclick = (e) => {
+    if (isPhone()) { setSheet(document.body.dataset.sheet === "peek" ? "half" : "peek"); return; }
     const p = $("#itinerary"); const c = p.classList.toggle("collapsed");
     e.currentTarget.setAttribute("aria-expanded", String(!c));
     try { localStorage.setItem("nztrip:list-collapsed", c ? "1" : "0"); } catch {}
   };
-  if (lsGet("nztrip:list-collapsed") === "1" || isPhone()) { $("#itinerary").classList.add("collapsed"); $("#btn-collapse").setAttribute("aria-expanded", "false"); }
+  if (lsGet("nztrip:list-collapsed") === "1" && !isPhone()) { $("#itinerary").classList.add("collapsed"); $("#btn-collapse").setAttribute("aria-expanded", "false"); }
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     if (!$("#menu-layers").hidden || !$("#menu-more").hidden) closeMenus();
@@ -802,4 +864,5 @@ function wire() {
   matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setBase(baseKey));
 }
 wire();
+initSheets();
 boot();

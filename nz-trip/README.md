@@ -8,6 +8,7 @@ Live at **https://jsawle.github.io/gallery/nz-trip/**
 - Shows each overnight stop with its dates, nights and things to do, plus places to visit nearby.
 - Measures road distances and drive times with OSRM routing on OpenStreetMap roads.
 - Lets you edit the trip: turn on **Edit** to drag pins, add or delete stops and places, change nights, or reorder stops.
+- Works on phones (draggable bottom panel) and computers (side panels) from the same page.
 - Saves edits in your browser. Use **More → Copy share link** or **Download itinerary** to pass them to someone else.
 
 ## Files
@@ -27,7 +28,7 @@ Live at **https://jsawle.github.io/gallery/nz-trip/**
 ## Versions
 | Part | Version |
 |---|---|
-| App | 3.1.0 |
+| App | 3.2.0 |
 | Itinerary data | 1.1 |
 | Road routing | 1.0 |
 | Date calculator | 1.0 |

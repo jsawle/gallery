@@ -14,7 +14,7 @@
 
 <!-- Summary card -->
 <section class="glass card-summary" aria-labelledby="trip-title">
-  <div class="eyebrow" id="trip-dates">6 Dec 2026 – 23 Jan 2027</div>
+  <div class="eyebrow"><span id="trip-dates">6 Dec 2026 – 23 Jan 2027</span></div>
   <h1 id="trip-title">South Island Slow Loop</h1>
   <div class="stats" aria-live="polite">
     <div><span class="v" id="st-nights">48</span><span class="l">nights</span></div>
@@ -25,7 +25,8 @@
 </section>
 
 <!-- Itinerary list -->
-<nav class="glass panel-list" id="itinerary" aria-label="Itinerary">
+<nav class="glass panel-list sheet" id="itinerary" aria-label="Itinerary">
+  <div class="grab" role="button" tabindex="0" aria-label="Resize itinerary panel"></div>
   <div class="panel-head">
     <h2>Itinerary</h2>
     <button class="icon-btn" id="btn-collapse" aria-expanded="true" aria-controls="stop-list" title="Hide list">
@@ -36,11 +37,14 @@
 </nav>
 
 <!-- Detail / editor panel -->
-<aside class="glass panel-detail" id="detail" aria-live="polite" aria-label="Details" hidden></aside>
+<aside class="glass panel-detail sheet" id="detail" aria-label="Details" hidden>
+  <div class="grab" role="button" tabindex="0" aria-label="Resize details panel"></div>
+  <div id="detail-body" aria-live="polite"></div>
+</aside>
 
 <!-- Toolbar -->
 <div class="glass toolbar" role="toolbar" aria-label="Map tools">
-  <button class="tb" id="btn-fit" title="Show whole route"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span>Whole trip</span></button>
+  <button class="tb" id="btn-fit" title="Show whole route"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="lg">Whole trip</span><span class="sm">Trip</span></button>
   <button class="tb" id="btn-edit" aria-pressed="false" title="Turn editing on or off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg><span>Edit</span></button>
   <button class="tb edit-only" id="btn-add-stop" title="Add an overnight stop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Stop</span></button>
   <button class="tb edit-only" id="btn-add-poi" title="Add a place to visit near the selected stop"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/></svg><span>Place</span></button>
