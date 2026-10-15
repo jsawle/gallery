@@ -131,6 +131,7 @@ const APPS = [
   {cat:"process", title:"Message in a Bottle", repo:"oceancurrents", path:"ocean-drift.html", version:"", updated:"2026-06-25", desc:"Surface-drift simulator. Drop bottles in the ocean and watch where currents carry them.", tags:"ocean drift currents simulation"},
 
   // Learning activities
+  {cat:"learn", title:"Race to the Sea", repo:"curriculum_artifacts", path:"race-to-the-sea.html", version:"0.1.0", updated:"2026-10-15", desc:"Drop a stick in a stream, predict which sea or ocean it will reach, then follow the water all the way there. River data covers the Americas for now.", tags:"rivers stream drainage basin watershed sea ocean game poohsticks prediction"},
   {cat:"learn", title:"Grocery Store Site Challenge", repo:"sketchup", path:"food-desert-grocery-site.html", version:"0.7.0", updated:"2026-09-24", desc:"Find the best site for a supermarket in a food desert, then design it in SketchUp.", tags:"sketchup food desert site selection 3d"},
   {cat:"learn", title:"Globe Assessment", repo:"3Dmodels", path:"index.html", version:"1.0", updated:"2026-05-06", desc:"Interactive 3D globe quiz on continents, oceans, countries and plate boundaries, with downloadable results.", tags:"quiz assessment globe plates"},
   {cat:"learn", title:"Label the Volcano", repo:"assesmentgames", path:"volcano.html", version:"", updated:"2026-05-05", desc:"Drag-and-drop labelling game for the parts of a volcano.", tags:"volcano game assessment"},
@@ -198,7 +199,8 @@ const THUMBS = {
   "Mapmakervideo/index.html":"video",
   "MapMaker-How-to/player.html":"player",
   "localnews/news_geoparser.html":"news",
-  "monitoring/lebanon_drone_strike_tracker.html":"incidents"
+  "monitoring/lebanon_drone_strike_tracker.html":"incidents",
+  "curriculum_artifacts/race-to-the-sea.html":"rivers"
 };
 
 // Tiny SVG helpers. Scene is 320×180.
@@ -250,6 +252,7 @@ const SCENES = {
   video(){ return grid()+R(50,26,220,128,V("t-ink"),6)+C(160,90,24,V("cc"))+P("M153 78l20 12l-20 12z",V("t-paper"))+R(66,138,188,4,V("t-line"),2)+R(66,138,80,4,V("cc"),2); },
   player(){ return SCENES.video()+[["1×",200],["1.5×",232]].map(([t,x])=>R(x-4,34,30,18,V("t-paper"),4)+T(x,47,t,9)).join(""); },
   news(){ let s=grid()+R(34,24,130,132,V("t-paper"),3,V("t-line"),1)+R(46,36,106,12,V("t-ink"),2); for(let i=0;i<7;i++) s+=R(46,58+i*13,i===2?60:106,6,V("t-line"),2); return s+R(66,82,32,8,V("cc"),2,"none",0,'opacity=".6"')+arrow(170,90,196)+mapWin(204,40,96,100)+pin(240,100)+pin(268,78); },
+  rivers(){ return grid()+P("M200 180C230 150 262 132 320 124V180Z",V("t-water"))+P("M24 26C70 44 96 84 140 104S210 138 236 160","none",V("t-water"),5)+P("M78 14C86 38 100 62 116 86","none",V("t-water"),3)+P("M186 36C180 66 176 96 184 128","none",V("t-water"),3)+P("M14 96C52 98 92 100 128 101","none",V("t-water"),2.5)+`<g transform="rotate(-28 40 34)">`+R(26,30,30,6,V("cc"),3)+`</g>`+R(250,24,52,30,V("t-paper"),6,V("cc"),2)+T(270,44,"?",16,V("cc"))+T(250,170,"to the sea",9); },
   incidents(){ let s=grid()+mapWin(28,22,264,112); [[90,70],[120,86],[140,62],[180,96],[210,74],[230,104]].forEach(([x,y])=>s+=C(x,y,6,V("t-hot"),V("t-paper"),1.5)); s+=P("M28 160H292","none",V("t-line"),3); [60,110,170,240].forEach(x=>s+=C(x,160,4,V("t-hot"))); return s; }
 };
 const thumb = m => `<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" role="img" aria-hidden="true">${(SCENES[m]||grid)()}</svg>`;
